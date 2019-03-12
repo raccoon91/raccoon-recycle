@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, View, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Camera, Permissions, ImageManipulator } from 'expo';
 
 export default class CameraExample extends React.Component {
@@ -23,7 +23,7 @@ export default class CameraExample extends React.Component {
       const photo = await this.camera.takePictureAsync({ skipProcessing: true });
       let resizedPhoto = await ImageManipulator.manipulateAsync(
         photo.uri,
-        [ { resize: { width: 200, height: 200 }} ],
+        [ { resize: { width: 400, height: 400 }} ],
         { compress: 0, format: "png", base64: true }
       );
 
@@ -43,7 +43,7 @@ export default class CameraExample extends React.Component {
       return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Camera
-            style={{ width: 200, height: 200 }}
+            style={{ width: 400, height: 400 }}
             type={this.state.type}
             ref={ref => { this.camera = ref; }}
             autoFocus={"off"}

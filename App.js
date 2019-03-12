@@ -65,7 +65,7 @@ const MainStack = createStackNavigator({
   Info: { screen: InfoScreen }
 },
 {
-  initialRouteName: 'Camera',
+  initialRouteName: 'Home',
   headerMode: 'screen',
   mode: Platform.OS === 'ios' ? 'modal' : 'card',
   transitionConfig: TransitionConfiguration

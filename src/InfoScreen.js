@@ -1,118 +1,139 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, Image, TextInput, ScrollView, TouchableOpacity } from 'react-native';
-import uuidv1 from 'uuid/v1';
-import Context from './Context';
-
-let contextIndex = 0;
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import ViewShot from 'react-native-view-shot';
+import Draggable from './Draggable';
+import Confirm from './Confirm';
 
 export default class InfoScreen extends Component {
   state = {
     // barcode: this.props.navigation.getParam('barcode'),
-    recycleTitle: '',
-    recycleText: '',
-    context: {}
+    draggables: [],
+    uri: null
   };
 
   static navigationOptions = {
     title: 'information'
   };
 
-  controllRecycleTitle(text) {
-    this.setState({
-      recycleTitle: text
-    });
-  }
-
-  controllRecycleText(text) {
-    this.setState({
-      recycleText: text
-    });
-  }
-
-  addContext() {
-    const { barcode, recycleTitle, recycleText } = this.state;
-
-    fetch('https://intense-ocean-79148.herokuapp.com/recycle/036000291452', {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        context: this.state.context
-      })
-    })
-      .then(res => res.json())
-      .then(result => console.log('fetch', result));
-
-    if (recycleTitle !== '' && recycleText !== '') {
-      this.setState(prevState => {
-        const key = contextIndex++;
-
-        const newRecycleContext = {
-          [key]: {
-            key,
-            title: recycleTitle,
-            text: recycleText
-          }
-        };
-
-        const newState = {
-          ...prevState,
-          recycleTitle: '',
-          recycleText: '',
-          context: {
-            ...prevState.context,
-            ...newRecycleContext
-          }
-        };
-
-        return newState;
-      });
-    }
-  }
-
   render() {
     const imgURI = this.props.navigation.getParam('imgURI');
-    const { context } = this.state;
-    console.log(context);
+
+    console.log('render', this.state.draggables);
 
     return (
       <View style={styles.container}>
-        <Image
-          style={{ width: 200, height: 200 }}
-          source={{ uri: `data:image/png;base64,${imgURI}` }}
-        />
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            value={this.state.recycleTitle}
-            onChangeText={this.controllRecycleTitle.bind(this)}
+        {
+          this.state.uri
+          ? <Confirm uri={this.state.uri} />
+          : null
+        }
+        <ViewShot
+          style={styles.dropZone}
+          ref="viewShot"
+          options={{ format: 'png', quality: 0.9 }}
+        >
+          <Image
+            style={{ width: 400, height: 400 }}
+            source={{ uri: `data:image/png;base64,${imgURI}` }}
           />
-          <TextInput
-            style={styles.input}
-            value={this.state.recycleText}
-            onChangeText={this.controllRecycleText.bind(this)}
-          />
-          <TouchableOpacity onPress={this.addContext.bind(this)}>
-            <View style={{ width: 50, height: 30, backgroundColor: 'blue'}}>
-              <Text>submit</Text>
-            </View>
+          <View style={styles.wrapper}>
+            {
+              this.state.draggables.length
+              ? this.state.draggables.map((draggable) => {
+                return draggable;
+              })
+              : null
+            }
+          </View>
+        </ViewShot>
+        <View style={styles.row}>
+          <TouchableOpacity
+            onPress={this.addDraggable.bind(null, 'plastic')}
+          >
+            <Image
+              style={{ width: 60, height: 60}}
+              source={require('../assets/plastic.png')}
+            />
+            <Text>Plastic</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={this.addDraggable.bind(null, 'metal')}
+          >
+            <Image
+              style={{ width: 60, height: 60}}
+              source={require('../assets/metal.png')}
+            />
+            <Text>Metal</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={this.addDraggable.bind(null, 'paper')}
+          >
+            <Image
+              style={{ width: 60, height: 60}}
+              source={require('../assets/paper.png')}
+            />
+            <Text>Paper</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={this.addDraggable.bind(null, 'glass')}
+          >
+            <Image
+              style={{ width: 60, height: 60}}
+              source={require('../assets/glass.png')}
+            />
+            <Text>Glass</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={this.addDraggable.bind(null, 'trash')}
+          >
+            <Image
+              style={{ width: 60, height: 60}}
+              source={require('../assets/trash.png')}
+            />
+            <Text>Trash</Text>
           </TouchableOpacity>
         </View>
-        <ScrollView contentContainerStyle={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-          {
-            Object.values(context).map(one => {
-              return (
-                <Context
-                  {...one}
-                />
-              );
-            })
-          }
-        </ScrollView>
+        <TouchableOpacity
+          style={styles.temp}
+          onPress={this.takeSnapShot}
+        >
+          <Text>Take</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.temp}
+          onPress={this.undo}
+        >
+          <Text>Undo</Text>
+        </TouchableOpacity>
       </View>
     );
+  }
+
+  addDraggable = (text) => {
+    const { draggables } = this.state;
+    const index = draggables.length;
+
+    this.setState({
+      draggables: draggables.concat(<Draggable content={text} key={index} />)
+    });
+  }
+
+  takeSnapShot = () => {
+    this.refs.viewShot.capture().then(uri => {
+      this.setState({
+        uri: uri
+      });
+    });
+  }
+
+  undo = () => {
+    const copiedDraggables = this.state.draggables.slice();
+
+    copiedDraggables.pop();
+
+    this.setState({
+      draggables: copiedDraggables
+    });
   }
 }
 
@@ -135,5 +156,36 @@ const styles = StyleSheet.create({
     width: 100,
     backgroundColor: 'gray',
     marginRight: 10
+  },
+  mainContainer: {
+    flex: 1
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: 'center',
+    justifyContent: 'space-around'
+  },  
+  dropZone: {
+    height: 400,
+    backgroundColor: "#00334d"
+  },
+  text: {
+    marginTop: 25,
+    marginLeft: 5,
+    marginRight: 5,
+    textAlign: "center",
+    color: "#fff",
+    fontSize: 25,
+    fontWeight: "bold"
+  },
+  temp: {
+    padding: 10,
+    backgroundColor: 'blue',
+    width: 100
+  },
+  wrapper: {
+    position: 'absolute',
+    top: 0,
+    left: 0
   }
 });

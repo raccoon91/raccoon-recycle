@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
-import DisplayScreen from './DisplayScreen';
 import { withNavigationFocus } from 'react-navigation';
 
 class BarcodeScannerScreen extends Component {

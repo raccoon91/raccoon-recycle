@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
 import { withNavigationFocus } from 'react-navigation';
+import { connect } from 'react-redux';
+import { barcodeScan } from './actions';
+
+console.log('action', barcodeScan);
 
 class BarcodeScannerScreen extends Component {
   static navigationOptions = {
@@ -20,6 +24,7 @@ class BarcodeScannerScreen extends Component {
   }
 
   handleBarCodeScanned = ({ type, data }) => {
+    this.props.barcodeScan(data);
     this.props.navigation.navigate('Display', { 'data' : data });
   }
 
@@ -63,7 +68,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: '#78909c'
   },
   text: {
     fontSize: 20,
@@ -72,8 +78,19 @@ const styles = StyleSheet.create({
   barcodeScannerWrapper: {
     overflow: 'hidden',
     width: '80%',
-    height: '30%'
+    height: '30%',
+    borderWidth: 3,
+    borderColor: 'white'
   }
 })
 
-export default withNavigationFocus(BarcodeScannerScreen);
+function mapDispatchToProps(dispatch) {
+  return {
+    barcodeScan: (barcode) => {
+      dispatch(barcodeScan(barcode));
+    }
+  };
+}
+
+// export default withNavigationFocus(BarcodeScannerScreen);
+export default connect(null, mapDispatchToProps)(withNavigationFocus(BarcodeScannerScreen));

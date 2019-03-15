@@ -6,6 +6,9 @@ import BarcodeScannerScreen from './src/BarcodeScannerScreen';
 import DisplayScreen from './src/DisplayScreen';
 import CameraScreen from './src/CameraScreen';
 import InfoScreen from './src/InfoScreen';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import reducers from './src/reducers';
 
 let CollapseExpand = (index, position) => {
   const inputRange = [index - 1, index, index + 1];
@@ -75,6 +78,10 @@ const AppContainer = createAppContainer(MainStack);
 
 export default class App extends Component {
   render() {
-    return <AppContainer />;
+    return (
+      <Provider store={createStore(reducers)}>
+        <AppContainer />
+      </Provider>
+    );
   }
 }

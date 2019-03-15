@@ -41,7 +41,7 @@ export default class CameraExample extends React.Component {
       return <Text>No access to camera</Text>;
     } else {
       return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#78909c' }}>
           <Camera
             style={{ width: 400, height: 400 }}
             type={this.state.type}
@@ -51,8 +51,8 @@ export default class CameraExample extends React.Component {
           >
           </Camera>
           <TouchableOpacity onPress={this.snap}>
-            <View style={{padding: 20, marginTop: 20, borderWidth: 1, borderColor: '#888'}}>
-              <Text>Take Picture</Text>
+            <View style={{ backgroundColor: '#4b636e', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 5, marginTop: 20 }}>
+              <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>Take Picture</Text>
             </View>
           </TouchableOpacity>
         </View>

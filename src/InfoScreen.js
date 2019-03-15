@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import ViewShot from 'react-native-view-shot';
+import { FontAwesome } from '@expo/vector-icons';
 import Draggable from './Draggable';
 import Confirm from './Confirm';
 
@@ -27,25 +28,41 @@ export default class InfoScreen extends Component {
           ? <Confirm uri={this.state.uri} />
           : null
         }
-        <ViewShot
-          style={styles.dropZone}
-          ref="viewShot"
-          options={{ format: 'png', quality: 0.9 }}
-        >
-          <Image
-            style={{ width: 400, height: 400 }}
-            source={{ uri: `data:image/png;base64,${imgURI}` }}
-          />
-          <View style={styles.wrapper}>
-            {
-              this.state.draggables.length
-              ? this.state.draggables.map((draggable) => {
-                return draggable;
-              })
-              : null
-            }
+        <View>
+          <ViewShot
+            style={styles.dropZone}
+            ref="viewShot"
+            options={{ format: 'png', quality: 0.9 }}
+          >
+            <Image
+              style={{ width: 400, height: 400 }}
+              source={{ uri: `data:image/png;base64,${imgURI}` }}
+            />
+            <View style={styles.wrapper}>
+              {
+                this.state.draggables.length
+                ? this.state.draggables.map((draggable) => {
+                  return draggable;
+                })
+                : null
+              }
+            </View>
+          </ViewShot>
+          <View style={{position: 'absolute', bottom: 0, flexDirection: "row", width: '100%', alignItems: 'center', justifyContent: 'space-around', marginVertical: 10}}>
+            <TouchableOpacity
+              style={{}}
+              onPress={this.undo}
+            >
+              <FontAwesome name="undo" size={28} color="#FF4136" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{}}
+              onPress={this.takeSnapShot}
+              >
+              <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>Take</Text>
+            </TouchableOpacity>
           </View>
-        </ViewShot>
+        </View>
         <View style={styles.row}>
           <TouchableOpacity
             onPress={this.addDraggable.bind(null, 'plastic')}
@@ -93,18 +110,6 @@ export default class InfoScreen extends Component {
             <Text>Trash</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={styles.temp}
-          onPress={this.takeSnapShot}
-        >
-          <Text>Take</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.temp}
-          onPress={this.undo}
-        >
-          <Text>Undo</Text>
-        </TouchableOpacity>
       </View>
     );
   }
@@ -140,7 +145,7 @@ export default class InfoScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#78909c',
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
@@ -162,8 +167,10 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
+    width: '100%',
     alignItems: 'center',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    marginVertical: 30
   },  
   dropZone: {
     height: 400,
@@ -179,9 +186,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   temp: {
-    padding: 10,
-    backgroundColor: 'blue',
-    width: 100
+    backgroundColor: '#4b636e',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5
   },
   wrapper: {
     position: 'absolute',

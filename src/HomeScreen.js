@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, TouchableOpacity, Platform } from 'react-native';
 import * as Expo from 'expo';
 import { connect } from 'react-redux';
 import { loginUserName } from './actions';
+
+const isAndroid = () => Platform.OS === 'android';
 
 class HomeScreen extends Component {
   state = {
@@ -18,7 +20,7 @@ class HomeScreen extends Component {
   signIn = async () => {
     try {
       const result = await Expo.Google.logInAsync({
-        androidClientId: '1050254961075-9f9osk0h0kvc562l3sh0pbhc5bvv7ift.apps.googleusercontent.com',
+        clientId: isAndroid() ? '1050254961075-9f9osk0h0kvc562l3sh0pbhc5bvv7ift.apps.googleusercontent.com' : null,
         scopes: ['profile', 'email']
       });
 

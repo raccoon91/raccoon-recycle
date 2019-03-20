@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Animation Navigation",
-    "slug": "react-navigator-animation",
+    "name": "분리수거",
+    "slug": "Recycle",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
@@ -14,7 +14,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#a7c0cd"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -24,6 +24,10 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "android": {
+      "package": "host.exp.exponent"
+    },
+    "description": ""
   }
 }

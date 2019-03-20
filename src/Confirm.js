@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text } from 'react-native';
+import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import ActionCreator from './actions';
 
@@ -13,14 +13,40 @@ class ConfirmModal extends Component {
           <View style={styles.modal}>
             <Image
               style={{ width: 300, height: 300 }}
-              source={{ uri }}
+              source={{ uri: `data:image/png;base64, ${uri}` }}
             />
             <Text>{this.props.username}</Text>
             <Text>{this.props.barcode}</Text>
           </View>
+          <TouchableOpacity onPress={this.save.bind(null, this.props)}>
+            <Text>Save</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
+  }
+
+  save(props) {
+    const { barcode, username, uri } = props;
+    console.log(JSON.stringify({barcode: barcode, username: username}));
+
+    fetch('https://pb1ol5vs94.execute-api.us-east-1.amazonaws.com/recycle/upload',
+    {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify({barcode: barcode, username: username, base64Image: uri})
+    })
+    .then(res => res.json())
+    .then(result => {
+      console.log('result', result);
+    })
+    .catch(err => {
+      console.log('post error');
+      console.log(err);
+    })
   }
 }
 

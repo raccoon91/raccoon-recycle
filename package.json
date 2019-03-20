@@ -36,9 +36,6 @@
     ],
     "setupFiles": [
       "<rootDir>/__test__/setup/setupEnzyme.js"
-    ],
-    "transformIgnorePatterns": [
-      "node_modules/(?!react-native|react-navigation|expo)/"
     ]
   }
 }

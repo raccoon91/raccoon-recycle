@@ -32,20 +32,22 @@ export default class InfoScreen extends Component {
           <ViewShot
             style={styles.dropZone}
             ref="viewShot"
-            options={{ format: 'png', quality: 0.9 }}
+            options={{ format: 'png', quality: 0.9, result: "base64" }}
           >
-            <Image
-              style={{ width: 400, height: 400 }}
-              source={{ uri: `data:image/png;base64,${imgURI}` }}
-            />
-            <View style={styles.wrapper}>
-              {
-                this.state.draggables.length
-                ? this.state.draggables.map((draggable) => {
-                  return draggable;
-                })
-                : null
-              }
+            <View>
+              <Image
+                style={{ width: 400, height: 400 }}
+                source={{ uri: `data:image/png;base64,${imgURI}` }}
+              />
+              <View style={styles.wrapper}>
+                {
+                  this.state.draggables.length
+                  ? this.state.draggables.map((draggable) => {
+                    return draggable;
+                  })
+                  : null
+                }
+              </View>
             </View>
           </ViewShot>
           <View style={{position: 'absolute', bottom: 0, flexDirection: "row", width: '100%', alignItems: 'center', justifyContent: 'space-around', marginVertical: 10}}>

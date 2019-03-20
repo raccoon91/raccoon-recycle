@@ -25,7 +25,7 @@ class BarcodeScannerScreen extends Component {
 
   handleBarCodeScanned = ({ type, data }) => {
     this.props.barcodeScan(data);
-    this.props.navigation.navigate('Display', { 'data' : data });
+    this.props.navigation.navigate('Display', { 'barcode' : data });
   }
 
   render() {

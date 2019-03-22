@@ -13,22 +13,27 @@ export default class InfoScreen extends Component {
   };
 
   static navigationOptions = {
-    title: 'information'
+    title: 'information',
+    headerStyle: {
+      backgroundColor: '#4b636e'
+    },
+    headerTintColor: 'white',
+    headerTintStyle: {
+      fontWeight: 'bold'
+    }
   };
 
   render() {
     const imgURI = this.props.navigation.getParam('imgURI');
 
-    console.log('render', this.state.draggables);
-
     return (
       <View style={styles.container}>
         {
           this.state.uri
-          ? <Confirm uri={this.state.uri} />
+          ? <Confirm uri={this.state.uri} navigation={this.props.navigation} />
           : null
         }
-        <View>
+        <View style={{ marginTop: 10 }}>
           <ViewShot
             style={styles.dropZone}
             ref="viewShot"
@@ -50,7 +55,7 @@ export default class InfoScreen extends Component {
               </View>
             </View>
           </ViewShot>
-          <View style={{position: 'absolute', bottom: 0, flexDirection: "row", width: '100%', alignItems: 'center', justifyContent: 'space-around', marginVertical: 10}}>
+          <View style={{position: 'absolute', bottom: 0, flexDirection: "row", width: '100%', alignItems: 'center', justifyContent: 'space-around', marginVertical: 20}}>
             <TouchableOpacity
               style={{}}
               onPress={this.undo}
@@ -67,6 +72,7 @@ export default class InfoScreen extends Component {
         </View>
         <View style={styles.row}>
           <TouchableOpacity
+            style={{ alignItems: 'center' }}
             onPress={this.addDraggable.bind(null, 'plastic')}
           >
             <Image
@@ -76,6 +82,7 @@ export default class InfoScreen extends Component {
             <Text>Plastic</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            style={{ alignItems: 'center' }}
             onPress={this.addDraggable.bind(null, 'metal')}
           >
             <Image
@@ -85,6 +92,7 @@ export default class InfoScreen extends Component {
             <Text>Metal</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            style={{ alignItems: 'center' }}
             onPress={this.addDraggable.bind(null, 'paper')}
           >
             <Image
@@ -94,6 +102,7 @@ export default class InfoScreen extends Component {
             <Text>Paper</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            style={{ alignItems: 'center' }}
             onPress={this.addDraggable.bind(null, 'glass')}
           >
             <Image
@@ -103,6 +112,7 @@ export default class InfoScreen extends Component {
             <Text>Glass</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            style={{ alignItems: 'center' }}
             onPress={this.addDraggable.bind(null, 'trash')}
           >
             <Image

@@ -9,7 +9,8 @@ console.log('action', barcodeScan);
 
 class BarcodeScannerScreen extends Component {
   static navigationOptions = {
-    title: 'Scan'
+    // title: 'Scan'
+    header: null
   };
 
   state = {

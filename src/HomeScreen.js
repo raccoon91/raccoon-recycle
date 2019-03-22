@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button, Image, TouchableOpacity, Platform } fro
 import * as Expo from 'expo';
 import { connect } from 'react-redux';
 import { loginUserName } from './actions';
+import { Google } from 'expo';
 
 const isAndroid = () => Platform.OS === 'android';
 
@@ -14,30 +15,49 @@ class HomeScreen extends Component {
   };
 
   static navigationOptions = {
-    title: 'Home'
+    // title: 'Home'
+    header: null
   };
 
   signIn = async () => {
     try {
-      const result = await Expo.Google.logInAsync({
-        clientId: isAndroid() ? '1050254961075-9f9osk0h0kvc562l3sh0pbhc5bvv7ift.apps.googleusercontent.com' : null,
-        scopes: ['profile', 'email']
-      });
+      const clientId = '1050254961075-qruht9q5sdrjgg5l0k521q4pt9e2dgq6.apps.googleusercontent.com';
+      const { type, accessToken, user } = await Google.logInAsync({ clientId });
 
-      if (result.type === 'success') {
+      if (type === 'success') {
         this.setState({
           signedIn: true,
-          photoUrl: result.user.photoUrl
+          photoUrl: user.photoUrl
         });
 
-        this.props.loginUserName(result.user.name);
-      } else {
-        console.log('cancelled');
+        this.props.loginUserName(user.name);
       }
     } catch (err) {
-      console.log('error', err);
+      console.log('error', err)
     }
   }
+
+  // signIn = async () => {
+  //   try {
+  //     const result = await Expo.Google.logInAsync({
+  //       clientId: isAndroid() ? '1050254961075-9f9osk0h0kvc562l3sh0pbhc5bvv7ift.apps.googleusercontent.com' : null,
+  //       scopes: ['profile', 'email']
+  //     });
+
+  //     if (result.type === 'success') {
+  //       this.setState({
+  //         signedIn: true,
+  //         photoUrl: result.user.photoUrl
+  //       });
+
+  //       this.props.loginUserName(result.user.name);
+  //     } else {
+  //       console.log('cancelled');
+  //     }
+  //   } catch (err) {
+  //     console.log('error', err);
+  //   }
+  // }
 
   render() {
     console.log(this.state.photoUrl);
@@ -57,7 +77,7 @@ class HomeScreen extends Component {
 const LoginPage = props => {
   return (
     <View style={{ alignItems: 'center' }}>
-      <View style={{ width: 180, height: 180, alignItems: 'center', justifyContent: 'center', backgroundColor: '#a7c0cd', marginBottom: 140, borderRadius: 20 }}>
+      <View style={{ width: 180, height: 180, alignItems: 'center', justifyContent: 'center', backgroundColor: '#a7c0cd', marginBottom: 140, borderRadius: 20, marginTop: 30 }}>
         <Image
           style={{ width: 140, height: 140 }}
           source={require('../assets/recycle.png')}

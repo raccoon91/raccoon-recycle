@@ -4,7 +4,14 @@ import { Camera, Permissions, ImageManipulator } from 'expo';
 
 export default class CameraExample extends React.Component {
   static navigationOptions = {
-    title: 'Camera'
+    title: 'Camera',
+    headerStyle: {
+      backgroundColor: '#4b636e'
+    },
+    headerTintColor: 'white',
+    headerTintStyle: {
+      fontWeight: 'bold'
+    }
   };
 
   state = {
@@ -41,7 +48,7 @@ export default class CameraExample extends React.Component {
       return <Text>No access to camera</Text>;
     } else {
       return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#78909c' }}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#78909c', marginTop: -40 }}>
           <Camera
             style={{ width: 400, height: 400 }}
             type={this.state.type}
@@ -51,7 +58,7 @@ export default class CameraExample extends React.Component {
           >
           </Camera>
           <TouchableOpacity onPress={this.snap}>
-            <View style={{ backgroundColor: '#4b636e', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 5, marginTop: 20 }}>
+            <View style={{ backgroundColor: '#4b636e', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 5, marginTop: 40 }}>
               <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>Take Picture</Text>
             </View>
           </TouchableOpacity>

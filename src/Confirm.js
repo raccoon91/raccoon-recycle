@@ -15,20 +15,19 @@ class ConfirmModal extends Component {
               style={{ width: 300, height: 300 }}
               source={{ uri: `data:image/png;base64, ${uri}` }}
             />
-            <Text>{this.props.username}</Text>
-            <Text>{this.props.barcode}</Text>
+            <Text style={{ fontSize: 20, marginTop: 10, fontWeight: 'bold' }}>barcode: {this.props.username}</Text>
+            <Text style={{ fontSize: 20, marginTop: 10, fontWeight: 'bold' }}>user: {this.props.barcode}</Text>
           </View>
-          <TouchableOpacity onPress={this.save.bind(null, this.props)}>
-            <Text>Save</Text>
+          <TouchableOpacity style={{ marginTop: 20, backgroundColor: '#4b636e', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 5 }} onPress={this.save}>
+            <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>Save</Text>
           </TouchableOpacity>
         </View>
       </View>
     );
   }
 
-  save(props) {
-    const { barcode, username, uri } = props;
-    console.log(JSON.stringify({barcode: barcode, username: username}));
+  save = (props) => {
+    const { barcode, username, uri, navigation } = this.props;
 
     fetch('https://pb1ol5vs94.execute-api.us-east-1.amazonaws.com/recycle/upload',
     {
@@ -39,9 +38,9 @@ class ConfirmModal extends Component {
       method: "POST",
       body: JSON.stringify({barcode: barcode, username: username, base64Image: uri})
     })
-    .then(res => res.json())
-    .then(result => {
-      console.log('result', result);
+    .then(res => {
+      console.log('res', res.body)
+      navigation.navigate('Display', { 'barcode' : barcode, 'confirm': { barcode, username } });
     })
     .catch(err => {
       console.log('post error');

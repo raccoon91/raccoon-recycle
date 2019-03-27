@@ -13,12 +13,8 @@
 
 ## Requirements
 
-- Expo Application
-- Google Developer Credentials 
-
-## Skills
-
-Javascript, React Native, AWS
+- Expo mobile Application
+- Google Login
 
 ## Installation
 
@@ -28,6 +24,11 @@ $ yarn start
 # run expo app and scan qr code
 
 ```
+
+## Skills
+
+- Front: Javascript, React Native
+- Back: AWS API Gateway, Lambda, S3
 
 ## Features
 
@@ -43,3 +44,4 @@ $ yarn start
 
 - 분리수거 정보에 좋아요, 싫어요 표시
 - Test
+- UI 개선

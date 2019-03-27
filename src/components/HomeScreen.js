@@ -1,28 +1,37 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, Image, TouchableOpacity, Platform } from 'react-native';
-import * as Expo from 'expo';
 import { connect } from 'react-redux';
-import { loginUserName } from './actions';
 import { Google } from 'expo';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  // Platform
+} from 'react-native';
+import { loginUserName } from '../actions';
+// import * as Expo from 'expo';
 
-const isAndroid = () => Platform.OS === 'android';
+// const isAndroid = () => Platform.OS === 'android';
 
 class HomeScreen extends Component {
-  state = {
-    signedIn: false,
-    name: '',
-    photoUrl: ''
-  };
-
   static navigationOptions = {
     // title: 'Home'
     header: null
   };
 
+  state = {
+    signedIn: false,
+    // name: '',
+    photoUrl: ''
+  };
+
   signIn = async () => {
     try {
-      const clientId = '1050254961075-qruht9q5sdrjgg5l0k521q4pt9e2dgq6.apps.googleusercontent.com';
-      const { type, accessToken, user } = await Google.logInAsync({ clientId });
+      // const clientId = '1050254961075-qruht9q5sdrjgg5l0k521q4pt9e2dgq6.apps.googleusercontent.com';
+      const clientId = '1050254961075-9f9osk0h0kvc562l3sh0pbhc5bvv7ift.apps.googleusercontent.com';
+      const { type, user } = await Google.logInAsync({ clientId });
+      const { saveloginUserName } = this.props;
 
       if (type === 'success') {
         this.setState({
@@ -30,7 +39,7 @@ class HomeScreen extends Component {
           photoUrl: user.photoUrl
         });
 
-        this.props.loginUserName(user.name);
+        saveloginUserName(user.name);
       }
     } catch (err) {
       console.log('error', err)
@@ -60,34 +69,35 @@ class HomeScreen extends Component {
   // }
 
   render() {
-    console.log(this.state.photoUrl);
+    const { signedIn, photoUrl } = this.state;
+    const { username, navigation } = this.props;
 
     return (
       <View style={styles.container}>
         {
-          this.state.signedIn
-          ? <LoggedInPage name={this.props.username} photoUrl={this.state.photoUrl} navigation={this.props.navigation} />
-          : <LoginPage signIn={this.signIn} />
+          signedIn
+            ? <LoggedInPage name={username} photoUrl={photoUrl} navigation={navigation} />
+            : <LoginPage signIn={this.signIn} />
         }
       </View>
     );
   }
 }
 
-const LoginPage = props => {
+const LoginPage = (props) => {
   return (
     <View style={{ alignItems: 'center' }}>
       <View style={{ width: 180, height: 180, alignItems: 'center', justifyContent: 'center', backgroundColor: '#a7c0cd', marginBottom: 140, borderRadius: 20, marginTop: 30 }}>
         <Image
           style={{ width: 140, height: 140 }}
-          source={require('../assets/recycle.png')}
+          source={require('../../assets/recycle.png')}
         />
       </View>
       <TouchableOpacity style={{ flexDirection: 'row', alignItems:'center', backgroundColor: '#4b636e', padding: 5, borderRadius: 5 }} onPress={() => props.signIn()}>
         <View style={{ width: 50, height: 50, alignItems: 'center', justifyContent: 'center', backgroundColor: '#ffffff', borderRadius: 5 }}>
           <Image
             style={{ width: 40, height: 40 }}
-            source={require('../assets/google_logo.png')}
+            source={require('../../assets/google_logo.png')}
           />
         </View>
         <Text style={{ fontSize: 22, fontWeight:'bold', color: '#ffffff', marginHorizontal: 20 }}>Sign in with Google</Text>
@@ -96,7 +106,7 @@ const LoginPage = props => {
   );
 };
 
-const LoggedInPage = props => {
+const LoggedInPage = (props) => {
   return (
     <View style={styles.container}>
       <Text style={{ color: 'white', fontSize: 34, fontWeight: 'bold', marginBottom: 10 }}>Welcome!</Text>
@@ -120,7 +130,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     width: 100,
     height: 100,
-    borderColor: "rgba(0,0,0,0.2)",
+    borderColor: 'rgba(0,0,0,0.2)',
     borderWidth: 3,
     borderRadius: 150
   }
@@ -134,7 +144,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginUserName: (name) => {
+    saveloginUserName: (name) => {
       dispatch(loginUserName(name));
     }
   };

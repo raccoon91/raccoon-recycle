@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import ActionCreator from './actions';
+import ActionCreator from '../actions';
 
 class ConfirmModal extends Component {
   render() {
@@ -15,8 +15,8 @@ class ConfirmModal extends Component {
               style={{ width: 300, height: 300 }}
               source={{ uri: `data:image/png;base64, ${uri}` }}
             />
-            <Text style={{ fontSize: 20, marginTop: 10, fontWeight: 'bold' }}>barcode: {this.props.username}</Text>
-            <Text style={{ fontSize: 20, marginTop: 10, fontWeight: 'bold' }}>user: {this.props.barcode}</Text>
+            <Text style={{ fontSize: 20, marginTop: 10, fontWeight: 'bold' }}>barcode: {this.props.barcode}</Text>
+            <Text style={{ fontSize: 20, marginTop: 10, fontWeight: 'bold' }}>user: {this.props.username}</Text>
           </View>
           <TouchableOpacity style={{ marginTop: 20, backgroundColor: '#4b636e', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 5 }} onPress={this.save}>
             <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>Save</Text>

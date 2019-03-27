@@ -6,12 +6,6 @@ import Draggable from './Draggable';
 import Confirm from './Confirm';
 
 export default class InfoScreen extends Component {
-  state = {
-    // barcode: this.props.navigation.getParam('barcode'),
-    draggables: [],
-    uri: null
-  };
-
   static navigationOptions = {
     title: 'information',
     headerStyle: {
@@ -21,6 +15,12 @@ export default class InfoScreen extends Component {
     headerTintStyle: {
       fontWeight: 'bold'
     }
+  };
+
+  state = {
+    // barcode: this.props.navigation.getParam('barcode'),
+    draggables: [],
+    uri: null
   };
 
   render() {
@@ -77,7 +77,7 @@ export default class InfoScreen extends Component {
           >
             <Image
               style={{ width: 60, height: 60}}
-              source={require('../assets/plastic.png')}
+              source={require('../../assets/plastic.png')}
             />
             <Text>Plastic</Text>
           </TouchableOpacity>
@@ -87,7 +87,7 @@ export default class InfoScreen extends Component {
           >
             <Image
               style={{ width: 60, height: 60}}
-              source={require('../assets/metal.png')}
+              source={require('../../assets/metal.png')}
             />
             <Text>Metal</Text>
           </TouchableOpacity>
@@ -97,7 +97,7 @@ export default class InfoScreen extends Component {
           >
             <Image
               style={{ width: 60, height: 60}}
-              source={require('../assets/paper.png')}
+              source={require('../../assets/paper.png')}
             />
             <Text>Paper</Text>
           </TouchableOpacity>
@@ -107,7 +107,7 @@ export default class InfoScreen extends Component {
           >
             <Image
               style={{ width: 60, height: 60}}
-              source={require('../assets/glass.png')}
+              source={require('../../assets/glass.png')}
             />
             <Text>Glass</Text>
           </TouchableOpacity>
@@ -117,7 +117,7 @@ export default class InfoScreen extends Component {
           >
             <Image
               style={{ width: 60, height: 60}}
-              source={require('../assets/trash.png')}
+              source={require('../../assets/trash.png')}
             />
             <Text>Trash</Text>
           </TouchableOpacity>

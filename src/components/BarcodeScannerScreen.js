@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
 import { withNavigationFocus } from 'react-navigation';
 import { connect } from 'react-redux';
-import { barcodeScan } from './actions';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator
+} from 'react-native';
+import { barcodeScan } from '../actions';
 
 console.log('action', barcodeScan);
 
@@ -23,14 +28,17 @@ class BarcodeScannerScreen extends Component {
       hasCameraPermission: status === 'granted'
     });
   }
-
+  
   handleBarCodeScanned = ({ type, data }) => {
-    this.props.barcodeScan(data);
-    this.props.navigation.navigate('Display', { 'barcode' : data });
+    const { barcodeScan, navigation } = this.props;
+
+    barcodeScan(data);
+    navigation.navigate('Display', { 'barcode' : data });
   }
 
   render() {
     const { hasCameraPermission, barcode } = this.state;
+    const { isFocused } = this.props;
 
     if (hasCameraPermission === null) {
       return (
@@ -51,14 +59,16 @@ class BarcodeScannerScreen extends Component {
     return (
       <View style={styles.container}>
         {
-          this.props.isFocused
-          ? <View style={styles.barcodeScannerWrapper}>
-              <BarCodeScanner
-                onBarCodeRead={this.handleBarCodeScanned}
-                style={StyleSheet.absoluteFill}
-              />
-            </View>
-          : <ActivityIndicator size="large" />
+          isFocused
+            ? (
+              <View style={styles.barcodeScannerWrapper}>
+                <BarCodeScanner
+                  onBarCodeRead={this.handleBarCodeScanned}
+                  style={StyleSheet.absoluteFill}
+                />
+              </View>
+            )
+            : <ActivityIndicator size="large" />
         }
       </View>
     );
@@ -83,7 +93,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: 'white'
   }
-})
+});
 
 function mapDispatchToProps(dispatch) {
   return {

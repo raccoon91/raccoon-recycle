@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Animated, Easing, Platform } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import HomeScreen from './src/HomeScreen';
-import BarcodeScannerScreen from './src/BarcodeScannerScreen';
-import DisplayScreen from './src/DisplayScreen';
-import CameraScreen from './src/CameraScreen';
-import InfoScreen from './src/InfoScreen';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import HomeScreen from './src/components/HomeScreen';
+import BarcodeScannerScreen from './src/components/BarcodeScannerScreen';
+import DisplayScreen from './src/components/DisplayScreen';
+import CameraScreen from './src/components/CameraScreen';
+import InfoScreen from './src/components/InfoScreen';
 import reducers from './src/reducers';
 
-let CollapseExpand = (index, position) => {
+const CollapseExpand = (index, position) => {
   const inputRange = [index - 1, index, index + 1];
   const opacity = position.interpolate({
     inputRange,
@@ -28,7 +28,7 @@ let CollapseExpand = (index, position) => {
   };
 };
 
-let SlideFromRight = (index, position, width) => {
+const SlideFromRight = (index, position, width) => {
   const inputRange = [index - 1, index, index + 1];
   const translateX = position.interpolate({
     inputRange: [index - 1, index, index + 1],
@@ -46,10 +46,10 @@ const TransitionConfiguration = () => {
       timing: Animated.timing,
       useNativeDriver: true,
     },
-    screenInterpolator: sceneProps => {
+    screenInterpolator: (sceneProps) => {
       const { layout, position, scene } = sceneProps;
       const width = layout.initWidth;
-      const { index, route } = scene
+      const { index, route } = scene;
       const params = route.params || {}; // <- That's new
       const transition = params.transition || 'default'; // <- That's new
       return {
@@ -76,12 +76,10 @@ const MainStack = createStackNavigator({
 
 const AppContainer = createAppContainer(MainStack);
 
-export default class App extends Component {
-  render() {
-    return (
-      <Provider store={createStore(reducers)}>
-        <AppContainer />
-      </Provider>
-    );
-  }
+export default function App() {
+  return (
+    <Provider store={createStore(reducers)}>
+      <AppContainer />
+    </Provider>
+  );
 }

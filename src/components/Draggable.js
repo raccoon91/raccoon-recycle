@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { StyleSheet, View, PanResponder, Animated, Image } from 'react-native';
 
 const images = {
-  plastic: require('../assets/plastic.png'),
-  metal: require('../assets/metal.png'),
-  glass: require('../assets/glass.png'),
-  paper: require('../assets/paper.png'),
-  trash: require('../assets/trash.png')
+  plastic: require('../../assets/plastic.png'),
+  metal: require('../../assets/metal.png'),
+  glass: require('../../assets/glass.png'),
+  paper: require('../../assets/paper.png'),
+  trash: require('../../assets/trash.png')
 };
 
 export default class App extends Component {

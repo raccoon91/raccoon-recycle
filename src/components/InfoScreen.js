@@ -23,109 +23,6 @@ export default class InfoScreen extends Component {
     uri: null
   };
 
-  render() {
-    const imgURI = this.props.navigation.getParam('imgURI');
-
-    return (
-      <View style={styles.container}>
-        {
-          this.state.uri
-          ? <Confirm uri={this.state.uri} navigation={this.props.navigation} />
-          : null
-        }
-        <View style={{ marginTop: 10 }}>
-          <ViewShot
-            style={styles.dropZone}
-            ref="viewShot"
-            options={{ format: 'png', quality: 0.9, result: "base64" }}
-          >
-            <View>
-              <Image
-                style={{ width: 400, height: 400 }}
-                source={{ uri: `data:image/png;base64,${imgURI}` }}
-              />
-              <View style={styles.wrapper}>
-                {
-                  this.state.draggables.length
-                  ? this.state.draggables.map((draggable) => {
-                    return draggable;
-                  })
-                  : null
-                }
-              </View>
-            </View>
-          </ViewShot>
-          <View style={{position: 'absolute', bottom: 0, flexDirection: "row", width: '100%', alignItems: 'center', justifyContent: 'space-around', marginVertical: 20}}>
-            <TouchableOpacity
-              style={{}}
-              onPress={this.undo}
-            >
-              <FontAwesome name="undo" size={28} color="#FF4136" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{}}
-              onPress={this.takeSnapShot}
-              >
-              <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>Take</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={styles.row}>
-          <TouchableOpacity
-            style={{ alignItems: 'center' }}
-            onPress={this.addDraggable.bind(null, 'plastic')}
-          >
-            <Image
-              style={{ width: 60, height: 60}}
-              source={require('../../assets/plastic.png')}
-            />
-            <Text>Plastic</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{ alignItems: 'center' }}
-            onPress={this.addDraggable.bind(null, 'metal')}
-          >
-            <Image
-              style={{ width: 60, height: 60}}
-              source={require('../../assets/metal.png')}
-            />
-            <Text>Metal</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{ alignItems: 'center' }}
-            onPress={this.addDraggable.bind(null, 'paper')}
-          >
-            <Image
-              style={{ width: 60, height: 60}}
-              source={require('../../assets/paper.png')}
-            />
-            <Text>Paper</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{ alignItems: 'center' }}
-            onPress={this.addDraggable.bind(null, 'glass')}
-          >
-            <Image
-              style={{ width: 60, height: 60}}
-              source={require('../../assets/glass.png')}
-            />
-            <Text>Glass</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{ alignItems: 'center' }}
-            onPress={this.addDraggable.bind(null, 'trash')}
-          >
-            <Image
-              style={{ width: 60, height: 60}}
-              source={require('../../assets/trash.png')}
-            />
-            <Text>Trash</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  }
-
   addDraggable = (text) => {
     const { draggables } = this.state;
     const index = draggables.length;
@@ -136,15 +33,16 @@ export default class InfoScreen extends Component {
   }
 
   takeSnapShot = () => {
-    this.refs.viewShot.capture().then(uri => {
+    this.refs.viewShot.capture().then((uri) => {
       this.setState({
-        uri: uri
+        uri
       });
     });
   }
 
   undo = () => {
-    const copiedDraggables = this.state.draggables.slice();
+    const { draggables } = this.state;
+    const copiedDraggables = draggables.slice();
 
     copiedDraggables.pop();
 
@@ -152,60 +50,146 @@ export default class InfoScreen extends Component {
       draggables: copiedDraggables
     });
   }
+
+  render() {
+    const { uri, draggables } = this.state;
+    const { navigation } = this.props;
+    const imgURI = navigation.getParam('imgURI');
+
+    return (
+      <View style={styles.container}>
+        {
+          uri
+            ? <Confirm uri={uri} navigation={navigation} />
+            : null
+        }
+        <View style={{ marginTop: 10 }}>
+          <ViewShot
+            style={styles.imageZone}
+            ref="viewShot"
+            options={{ format: 'png', quality: 0.9, result: 'base64' }}
+          >
+            <View>
+              <Image
+                style={{ width: 400, height: 400 }}
+                source={{ uri: `data:image/png;base64,${imgURI}` }}
+              />
+              <View style={styles.recycleImageWrapper}>
+                {
+                  draggables.length
+                    ? draggables.map((draggable) => {
+                      return draggable;
+                    })
+                    : null
+                }
+              </View>
+            </View>
+          </ViewShot>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={this.undo}
+            >
+              <FontAwesome name="undo" size={28} color="#FF4136" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={this.takeSnapShot}
+            >
+              <Text style={styles.snapShotText}>Take</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.recycleImageButtonContainer}>
+          <TouchableOpacity
+            style={{ alignItems: 'center' }}
+            onPress={this.addDraggable.bind(null, 'plastic')}
+          >
+            <Image
+              style={{ width: 60, height: 60 }}
+              source={require('../../assets/plastic.png')}
+            />
+            <Text>Plastic</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ alignItems: 'center' }}
+            onPress={this.addDraggable.bind(null, 'metal')}
+          >
+            <Image
+              style={{ width: 60, height: 60 }}
+              source={require('../../assets/metal.png')}
+            />
+            <Text>Metal</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ alignItems: 'center' }}
+            onPress={this.addDraggable.bind(null, 'paper')}
+          >
+            <Image
+              style={{ width: 60, height: 60 }}
+              source={require('../../assets/paper.png')}
+            />
+            <Text>Paper</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ alignItems: 'center' }}
+            onPress={this.addDraggable.bind(null, 'glass')}
+          >
+            <Image
+              style={{ width: 60, height: 60 }}
+              source={require('../../assets/glass.png')}
+            />
+            <Text>Glass</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ alignItems: 'center' }}
+            onPress={this.addDraggable.bind(null, 'trash')}
+          >
+            <Image
+              style={{ width: 60, height: 60 }}
+              source={require('../../assets/trash.png')}
+            />
+            <Text>Trash</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#78909c',
-    alignItems: 'center',
     justifyContent: 'flex-start',
-  },
-  inputContainer: {
-    flex: 0.1,
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20
+    backgroundColor: '#78909c'
   },
-  input: {
-    height: 30,
-    width: 100,
-    backgroundColor: 'gray',
-    marginRight: 10
-  },
-  mainContainer: {
-    flex: 1
-  },
-  row: {
-    flexDirection: "row",
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    marginVertical: 30
-  },  
-  dropZone: {
+  imageZone: {
     height: 400,
-    backgroundColor: "#00334d"
+    backgroundColor: '#00334d'
   },
-  text: {
-    marginTop: 25,
-    marginLeft: 5,
-    marginRight: 5,
-    textAlign: "center",
-    color: "#fff",
-    fontSize: 25,
-    fontWeight: "bold"
-  },
-  temp: {
-    backgroundColor: '#4b636e',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5
-  },
-  wrapper: {
+  recycleImageWrapper: {
     position: 'absolute',
     top: 0,
     left: 0
+  },
+  buttonContainer: {
+    position: 'absolute',
+    bottom: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginVertical: 20,
+    width: '100%'
+  },
+  snapShotText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  recycleImageButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginVertical: 30,
+    width: '100%'
   }
 });

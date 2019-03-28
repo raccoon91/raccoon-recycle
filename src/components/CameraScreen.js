@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Text, View, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
 import { Camera, Permissions, ImageManipulator } from 'expo';
 
 export default class CameraExample extends React.Component {
@@ -16,7 +16,7 @@ export default class CameraExample extends React.Component {
 
   state = {
     hasCameraPermission: null,
-    isTakingImage: false
+    // isTakingImage: false
   };
 
   async componentDidMount() {
@@ -24,23 +24,25 @@ export default class CameraExample extends React.Component {
     this.setState({ hasCameraPermission: status === 'granted' });
   }
 
-  snap = async () => {
+  takePicture = async () => {
+    const { navigation } = this.props;
+
     if (this.camera) {
       // const barcode = this.props.navigate.getParam('barcode');
       const photo = await this.camera.takePictureAsync({ skipProcessing: true });
-      let resizedPhoto = await ImageManipulator.manipulateAsync(
+      const resizedPhoto = await ImageManipulator.manipulateAsync(
         photo.uri,
-        [ { resize: { width: 400, height: 400 }} ],
-        { compress: 0, format: "png", base64: true }
+        [{ resize: { width: 400, height: 400 }}],
+        { compress: 0, format: 'png', base64: true }
       );
 
-      this.props.navigation.navigate('Info', { 'imgURI': resizedPhoto.base64 });
+      navigation.navigate('Info', { imgURI: resizedPhoto.base64 });
       // this.props.navigation.navigate('Info', { 'imgURI': resizedPhoto.base64, 'barcode': barcode});
     }
   }
 
   render() {
-    const { hasCameraPermission } = this.state;
+    const { hasCameraPermission, type } = this.state;
 
     if (hasCameraPermission === null) {
       return <ActivityIndicator />;
@@ -48,18 +50,17 @@ export default class CameraExample extends React.Component {
       return <Text>No access to camera</Text>;
     } else {
       return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#78909c', marginTop: -40 }}>
+        <View style={styles.container}>
           <Camera
             style={{ width: 400, height: 400 }}
-            type={this.state.type}
-            ref={ref => { this.camera = ref; }}
-            autoFocus={"off"}
-            ratio={"1:1"}
-          >
-          </Camera>
-          <TouchableOpacity onPress={this.snap}>
-            <View style={{ backgroundColor: '#4b636e', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 5, marginTop: 40 }}>
-              <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>Take Picture</Text>
+            type={type}
+            ref={(ref) => { this.camera = ref; }}
+            autoFocus="off"
+            ratio="1:1"
+          />
+          <TouchableOpacity onPress={this.takePicture}>
+            <View style={styles.takePictureButton}>
+              <Text style={styles.takePictureText}>Take Picture</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -67,3 +68,25 @@ export default class CameraExample extends React.Component {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: -40,
+    backgroundColor: '#78909c'
+  },
+  takePictureButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginTop: 40,
+    borderRadius: 5,
+    backgroundColor: '#4b636e'
+  },
+  takePictureText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold'
+  }
+});

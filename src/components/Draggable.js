@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, PanResponder, Animated, Image } from 'react-native';
+import { StyleSheet, View, PanResponder, Image } from 'react-native';
 
 const images = {
   plastic: require('../../assets/plastic.png'),
@@ -10,7 +10,6 @@ const images = {
 };
 
 export default class App extends Component {
-
   state = {
     // dragging: false,
     initialTop: 50,
@@ -28,39 +27,12 @@ export default class App extends Component {
       onPanResponderMove: this.handlePanResponderMove,
       onPanResponderRelease: this.handlePanResponderEnd,
       // onPanResponderTerminate: this.handlePanResponderEnd,
-    })
-  }
-
-  render() {
-    const {initialTop, initialLeft, offsetTop, offsetLeft} = this.state;
-    const { content } = this.props;
-
-    // Update style with the state of the drag thus far
-    const style = {
-      // backgroundColor: dragging ? 'skyblue' : 'steelblue',
-      top: initialTop + offsetTop,
-      left: initialLeft + offsetLeft,
-    }
-
-    return (
-      <View style={styles.container}>
-        <View
-          // Put all panHandlers into the View's props
-          {...this.panResponder.panHandlers}
-          style={[styles.square, style]}
-        >
-          <Image
-            style={{ width: 60, height: 60, position: 'absolute' }}
-            source={images[content]}
-          />
-        </View>
-      </View>
-    )
+    });
   }
 
   // Should we become active when the user presses down on the square?
   handleStartShouldSetPanResponder = () => {
-    return true
+    return true;
   }
 
   // // We were granted responder status! Let's update the UI
@@ -70,17 +42,16 @@ export default class App extends Component {
 
   // Every time the touch/mouse moves
   handlePanResponderMove = (e, gestureState) => {
-
     // Keep track of how far we've moved in total (dx and dy)
     this.setState({
       offsetTop: gestureState.dy,
       offsetLeft: gestureState.dx,
-    })
+    });
   }
 
   // When the touch/mouse is lifted
   handlePanResponderEnd = (e, gestureState) => {
-    const {initialTop, initialLeft} = this.state;
+    const { initialTop, initialLeft } = this.state;
 
     // The drag is finished. Set the initialTop and initialLeft so that
     // the new position sticks. Reset offsetTop and offsetLeft for the next drag.
@@ -91,7 +62,31 @@ export default class App extends Component {
       initialLeft: initialLeft + gestureState.dx,
       offsetTop: 0,
       offsetLeft: 0,
-    })
+    });
+  }
+
+  render() {
+    const { initialTop, initialLeft, offsetTop, offsetLeft } = this.state;
+    const { content } = this.props;
+
+    const recycleImagePosition = {
+      top: initialTop + offsetTop,
+      left: initialLeft + offsetLeft,
+    };
+
+    return (
+      <View style={styles.container}>
+        <View
+          {...this.panResponder.panHandlers}
+          style={[styles.square, recycleImagePosition]}
+        >
+          <Image
+            style={{ width: 60, height: 60, position: 'absolute' }}
+            source={images[content]}
+          />
+        </View>
+      </View>
+    );
   }
 }
 
@@ -107,9 +102,5 @@ const styles = StyleSheet.create({
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  text: {
-    color: 'white',
-    fontSize: 12,
   }
-})
+});

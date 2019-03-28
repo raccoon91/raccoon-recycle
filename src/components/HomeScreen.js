@@ -140,7 +140,7 @@ function mapStateToProps(state) {
   return {
     username: state.userName
   };
-};
+}
 
 function mapDispatchToProps(dispatch) {
   return {

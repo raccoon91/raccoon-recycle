@@ -79,32 +79,50 @@ const OnLoad = ({ response, barcode, navigation }) => {
       </View>
     );
   }
-  
+
   return (
     <View style={{ alignItems: 'center' }}>
-      <Text style={styles.text}>There is no resulat about</Text>
-      <Text style={styles.text}>{barcode}</Text>
-      <Text style={styles.text}>If you want to make a new recycle</Text>
-      <TouchableOpacity style={{ marginTop: 100, backgroundColor: '#4b636e', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 5 }} onPress={() => navigation.navigate('Camera')}>
-          <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>Click Save</Text>
+      <Text style={styles.noResultText}>There is no resulat about</Text>
+      <Text style={styles.noResultText}>barcode: {barcode}</Text>
+      <Text style={styles.noResultText}>If you want to make a new recycle</Text>
+      <TouchableOpacity style={styles.saveButton} onPress={() => navigation.navigate('Camera')}>
+        <Text style={styles.saveText}>Click Save</Text>
       </TouchableOpacity>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#78909c',
+    justifyContent: 'center',
     alignItems: 'center',
-    justifyContent: 'center'
+    backgroundColor: '#78909c'
   },
-  text: {
+  noResultText: {
+    marginBottom: 20,
     color: 'white',
     fontSize: 24,
     fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20
+    textAlign: 'center'
+  },
+  saveButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginTop: 100,
+    borderRadius: 5,
+    backgroundColor: '#4b636e'
+  },
+  saveText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  responseText: {
+    marginVertical: 5,
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold'
   }
 });
 

@@ -10,8 +10,6 @@ import {
 } from 'react-native';
 import { barcodeScan } from '../actions';
 
-console.log('action', barcodeScan);
-
 class BarcodeScannerScreen extends Component {
   static navigationOptions = {
     // title: 'Scan'
@@ -29,11 +27,11 @@ class BarcodeScannerScreen extends Component {
     });
   }
   
-  handleBarCodeScanned = ({ type, data }) => {
+  handleBarCodeScanned = ({ data }) => {
     const { barcodeScan, navigation } = this.props;
 
     barcodeScan(data);
-    navigation.navigate('Display', { 'barcode' : data });
+    navigation.navigate('Display', { barcode: data });
   }
 
   render() {

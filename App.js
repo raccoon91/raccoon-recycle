@@ -10,32 +10,32 @@ import CameraScreen from './src/components/CameraScreen';
 import InfoScreen from './src/components/InfoScreen';
 import reducers from './src/reducers';
 
-const CollapseExpand = (index, position) => {
-  const inputRange = [index - 1, index, index + 1];
-  const opacity = position.interpolate({
-    inputRange,
-    outputRange: [0, 1, 1],
-  });
+// const CollapseExpand = (index, position) => {
+//   const inputRange = [index - 1, index, index + 1];
+//   const opacity = position.interpolate({
+//     inputRange,
+//     outputRange: [0, 1, 1],
+//   });
 
-  const scaleY = position.interpolate({
-    inputRange,
-    outputRange: ([0, 1, 1]),
-  });
+//   const scaleY = position.interpolate({
+//     inputRange,
+//     outputRange: ([0, 1, 1]),
+//   });
 
-  return {
-    opacity,
-    transform: [{ scaleY }]
-  };
-};
+//   return {
+//     opacity,
+//     transform: [{ scaleY }]
+//   };
+// };
 
 const SlideFromRight = (index, position, width) => {
-  const inputRange = [index - 1, index, index + 1];
+  // const inputRange = [index - 1, index, index + 1];
   const translateX = position.interpolate({
     inputRange: [index - 1, index, index + 1],
     outputRange: [width, 0, 0]
   });
   const slideFromRight = { transform: [{ translateX }] }
-  return slideFromRight
+  return slideFromRight;
 };
 
 const TransitionConfiguration = () => {
@@ -53,12 +53,12 @@ const TransitionConfiguration = () => {
       const params = route.params || {}; // <- That's new
       const transition = params.transition || 'default'; // <- That's new
       return {
-        collapseExpand: CollapseExpand(index, position),
+        // collapseExpand: CollapseExpand(index, position),
         default: SlideFromRight(index, position, width),
       }[transition];
     },
-  }
-}
+  };
+};
 
 const MainStack = createStackNavigator({
   Home: { screen: HomeScreen },

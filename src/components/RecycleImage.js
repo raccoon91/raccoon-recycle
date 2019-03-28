@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   View,
@@ -14,7 +15,7 @@ const images = {
   trash: require('../../assets/images/trash.png')
 };
 
-export default class App extends Component {
+export default class RecycleImage extends Component {
   state = {
     initialTop: 50,
     initialLeft: 50,
@@ -60,8 +61,14 @@ export default class App extends Component {
   }
 
   render() {
-    const { initialTop, initialLeft, offsetTop, offsetLeft, dragging } = this.state;
     const { content } = this.props;
+    const {
+      initialTop,
+      initialLeft,
+      offsetTop,
+      offsetLeft,
+      dragging
+    } = this.state;
 
     const recycleImagePosition = {
       top: initialTop + offsetTop,
@@ -84,6 +91,10 @@ export default class App extends Component {
     );
   }
 }
+
+RecycleImage.propTypes = {
+  content: PropTypes.string.isRequired
+};
 
 const styles = StyleSheet.create({
   container: {

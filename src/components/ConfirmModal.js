@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   View,
@@ -56,6 +57,13 @@ class ConfirmModal extends Component {
     );
   }
 }
+
+ConfirmModal.propTypes = {
+  barcode: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  base64Image: PropTypes.string.isRequired,
+  navigation: PropTypes.objectOf(Object).isRequired
+};
 
 const styles = StyleSheet.create({
   container: {

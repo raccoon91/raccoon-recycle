@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BarCodeScanner, Permissions } from 'expo';
 import { withNavigationFocus } from 'react-navigation';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
@@ -27,9 +28,9 @@ class BarcodeScannerScreen extends Component {
   }
 
   handleBarCodeScanned = ({ data }) => {
-    const { barcodeScan, navigation } = this.props;
+    const { saveBarcode, navigation } = this.props;
 
-    barcodeScan(data);
+    saveBarcode(data);
     navigation.navigate('DisplayRecycle', { barcode: data });
   }
 
@@ -72,6 +73,12 @@ class BarcodeScannerScreen extends Component {
   }
 }
 
+BarcodeScannerScreen.propTypes = {
+  saveBarcode: PropTypes.func.isRequired,
+  navigation: PropTypes.objectOf(Object).isRequired,
+  isFocused: PropTypes.bool.isRequired
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -93,7 +100,7 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = dispatch => ({
-  barcodeScan: (barcode) => {
+  saveBarcode: (barcode) => {
     dispatch(barcodeScan(barcode));
   }
 });

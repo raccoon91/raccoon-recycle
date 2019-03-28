@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ViewShot from 'react-native-view-shot';
 import { FontAwesome } from '@expo/vector-icons';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
@@ -8,10 +9,10 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native';
-import Draggable from './Draggable';
-import Confirm from './Confirm';
+import RecycleImage from './RecycleImage';
+import ConfirmModal from './ConfirmModal';
 
-export default class InfoScreen extends Component {
+export default class MakeRecycleScreen extends Component {
   static navigationOptions = {
     title: 'information',
     headerStyle: {
@@ -24,16 +25,16 @@ export default class InfoScreen extends Component {
   };
 
   state = {
-    draggables: [],
+    recycleImages: [],
     base64Image: null
   };
 
-  addDraggable = (text) => {
-    const { draggables } = this.state;
-    const index = draggables.length;
+  addRecycleImage = (text) => {
+    const { recycleImages } = this.state;
+    const index = recycleImages.length;
 
     this.setState({
-      draggables: draggables.concat(<Draggable content={text} key={index} />)
+      recycleImages: recycleImages.concat(<RecycleImage content={text} key={index} />)
     });
   }
 
@@ -46,18 +47,18 @@ export default class InfoScreen extends Component {
   }
 
   undo = () => {
-    const { draggables } = this.state;
-    const copiedDraggables = draggables.slice();
+    const { recycleImages } = this.state;
+    const copiedDraggables = recycleImages.slice();
 
     copiedDraggables.pop();
 
     this.setState({
-      draggables: copiedDraggables
+      recycleImages: copiedDraggables
     });
   }
 
   render() {
-    const { base64Image, draggables } = this.state;
+    const { base64Image, recycleImages } = this.state;
     const { navigation } = this.props;
     const imgURI = navigation.getParam('photoURI');
 
@@ -65,7 +66,7 @@ export default class InfoScreen extends Component {
       <View style={styles.container}>
         {
           base64Image
-            ? <Confirm base64Image={base64Image} navigation={navigation} />
+            ? <ConfirmModal base64Image={base64Image} navigation={navigation} />
             : null
         }
         <View style={{ marginTop: 10 }}>
@@ -81,9 +82,9 @@ export default class InfoScreen extends Component {
               />
               <View style={styles.recycleImageWrapper}>
                 {
-                  draggables.length
-                    ? draggables.map((draggable) => {
-                      return draggable;
+                  recycleImages.length
+                    ? recycleImages.map((recycleImage) => {
+                      return recycleImage;
                     })
                     : null
                 }
@@ -106,7 +107,7 @@ export default class InfoScreen extends Component {
         <View style={styles.recycleImageButtonContainer}>
           <TouchableOpacity
             style={{ alignItems: 'center' }}
-            onPress={this.addDraggable.bind(null, 'plastic')}
+            onPress={this.addRecycleImage.bind(null, 'plastic')}
           >
             <Image
               style={{ width: 60, height: 60 }}
@@ -116,7 +117,7 @@ export default class InfoScreen extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={{ alignItems: 'center' }}
-            onPress={this.addDraggable.bind(null, 'metal')}
+            onPress={this.addRecycleImage.bind(null, 'metal')}
           >
             <Image
               style={{ width: 60, height: 60 }}
@@ -126,7 +127,7 @@ export default class InfoScreen extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={{ alignItems: 'center' }}
-            onPress={this.addDraggable.bind(null, 'paper')}
+            onPress={this.addRecycleImage.bind(null, 'paper')}
           >
             <Image
               style={{ width: 60, height: 60 }}
@@ -136,7 +137,7 @@ export default class InfoScreen extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={{ alignItems: 'center' }}
-            onPress={this.addDraggable.bind(null, 'glass')}
+            onPress={this.addRecycleImage.bind(null, 'glass')}
           >
             <Image
               style={{ width: 60, height: 60 }}
@@ -146,7 +147,7 @@ export default class InfoScreen extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={{ alignItems: 'center' }}
-            onPress={this.addDraggable.bind(null, 'trash')}
+            onPress={this.addRecycleImage.bind(null, 'trash')}
           >
             <Image
               style={{ width: 60, height: 60 }}
@@ -159,6 +160,10 @@ export default class InfoScreen extends Component {
     );
   }
 }
+
+MakeRecycleScreen.propTypes = {
+  navigation: PropTypes.objectOf(Object).isRequired
+};
 
 const styles = StyleSheet.create({
   container: {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Google } from 'expo';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
@@ -22,7 +23,11 @@ class HomeScreen extends Component {
 
   signIn = async () => {
     try {
+      // development
       const clientId = '1050254961075-9f9osk0h0kvc562l3sh0pbhc5bvv7ift.apps.googleusercontent.com';
+
+      // deploy
+      // const clientId = '1050254961075-qruht9q5sdrjgg5l0k521q4pt9e2dgq6.apps.googleusercontent.com';
       const { type, user } = await Google.logInAsync({ clientId });
       const { saveloginUserName } = this.props;
 
@@ -48,14 +53,14 @@ class HomeScreen extends Component {
         {
           signedIn
             ? <LoggedInPage name={username} photoUrl={photoUrl} navigation={navigation} />
-            : <LoginPage signIn={this.signIn} />
+            : <LogInPage signIn={this.signIn} />
         }
       </View>
     );
   }
 }
 
-const LoginPage = ({ signIn }) => (
+const LogInPage = ({ signIn }) => (
   <View style={{ alignItems: 'center' }}>
     <View style={styles.appLogoContainer}>
       <Image
@@ -85,6 +90,22 @@ const LoggedInPage = ({ name, photoUrl, navigation }) => (
     </TouchableOpacity>
   </View>
 );
+
+HomeScreen.propTypes = {
+  username: PropTypes.string.isRequired,
+  navigation: PropTypes.objectOf(Object).isRequired,
+  saveloginUserName: PropTypes.func.isRequired
+};
+
+LogInPage.propTypes = {
+  signIn: PropTypes.func.isRequired
+};
+
+LoggedInPage.propTypes = {
+  name: PropTypes.string.isRequired,
+  photoUrl: PropTypes.string.isRequired,
+  navigation: PropTypes.objectOf(Object).isRequired
+};
 
 const styles = StyleSheet.create({
   container: {

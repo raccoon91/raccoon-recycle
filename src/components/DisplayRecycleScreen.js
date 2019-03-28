@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
@@ -8,7 +9,7 @@ import {
   Image
 } from 'react-native';
 
-class DisplayScreen extends Component {
+export default class DisplayScreen extends Component {
   static navigationOptions = {
     title: 'Display',
     headerStyle: {
@@ -49,8 +50,8 @@ class DisplayScreen extends Component {
   }
 
   render() {
-    const { navigation, response } = this.props;
-    const { isLoad } = this.state;
+    const { navigation } = this.props;
+    const { isLoad, response } = this.state;
     const barcode = navigation.getParam('barcode', 'no-data');
     const result = navigation.getParam('confirm', false) || response;
 
@@ -92,6 +93,20 @@ const OnLoad = ({ result, barcode, navigation }) => {
   );
 };
 
+DisplayScreen.propTypes = {
+  navigation: PropTypes.objectOf(Object).isRequired
+};
+
+OnLoad.defaultProps = {
+  result: null
+};
+
+OnLoad.propTypes = {
+  result: PropTypes.objectOf(String),
+  barcode: PropTypes.string.isRequired,
+  navigation: PropTypes.objectOf(Object).isRequired
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -125,5 +140,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   }
 });
-
-export default DisplayScreen;

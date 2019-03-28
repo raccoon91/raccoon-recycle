@@ -20,6 +20,9 @@
 
 ```sh
 $ yarn install
+# src/HomeScreen.js
+#line 26 주석 해제
+#line 29 주석 처리
 $ yarn start
 # run expo app and scan qr code
 

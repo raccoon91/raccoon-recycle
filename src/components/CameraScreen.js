@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Camera, Permissions } from 'expo';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
@@ -8,7 +9,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 
-export default class CameraExample extends React.Component {
+export default class CameraScreen extends Component {
   static navigationOptions = {
     title: 'Camera',
     headerStyle: {
@@ -66,6 +67,10 @@ export default class CameraExample extends React.Component {
     }
   }
 }
+
+CameraScreen.propTypes = {
+  navigation: PropTypes.objectOf(Object).isRequired
+};
 
 const styles = StyleSheet.create({
   container: {

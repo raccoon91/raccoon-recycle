@@ -1,6 +1,12 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
-import { Camera, Permissions, ImageManipulator } from 'expo';
+import { Camera, Permissions } from 'expo';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ActivityIndicator
+} from 'react-native';
 
 export default class CameraExample extends React.Component {
   static navigationOptions = {
@@ -15,8 +21,7 @@ export default class CameraExample extends React.Component {
   };
 
   state = {
-    hasCameraPermission: null,
-    // isTakingImage: false
+    hasCameraPermission: null
   };
 
   async componentDidMount() {
@@ -28,16 +33,9 @@ export default class CameraExample extends React.Component {
     const { navigation } = this.props;
 
     if (this.camera) {
-      // const barcode = this.props.navigate.getParam('barcode');
       const photo = await this.camera.takePictureAsync({ skipProcessing: true });
-      const resizedPhoto = await ImageManipulator.manipulateAsync(
-        photo.uri,
-        [{ resize: { width: 400, height: 400 }}],
-        { compress: 0, format: 'png', base64: true }
-      );
 
-      navigation.navigate('Info', { imgURI: resizedPhoto.base64 });
-      // this.props.navigation.navigate('Info', { 'imgURI': resizedPhoto.base64, 'barcode': barcode});
+      navigation.navigate('MakeRecycle', { photoURI: photo.uri });
     }
   }
 

@@ -12,7 +12,6 @@ import { barcodeScan } from '../actions';
 
 class BarcodeScannerScreen extends Component {
   static navigationOptions = {
-    // title: 'Scan'
     header: null
   };
 
@@ -26,16 +25,16 @@ class BarcodeScannerScreen extends Component {
       hasCameraPermission: status === 'granted'
     });
   }
-  
+
   handleBarCodeScanned = ({ data }) => {
     const { barcodeScan, navigation } = this.props;
 
     barcodeScan(data);
-    navigation.navigate('Display', { barcode: data });
+    navigation.navigate('DisplayRecycle', { barcode: data });
   }
 
   render() {
-    const { hasCameraPermission, barcode } = this.state;
+    const { hasCameraPermission } = this.state;
     const { isFocused } = this.props;
 
     if (hasCameraPermission === null) {
@@ -93,13 +92,10 @@ const styles = StyleSheet.create({
   }
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    barcodeScan: (barcode) => {
-      dispatch(barcodeScan(barcode));
-    }
-  };
-}
+const mapDispatchToProps = dispatch => ({
+  barcodeScan: (barcode) => {
+    dispatch(barcodeScan(barcode));
+  }
+});
 
-// export default withNavigationFocus(BarcodeScannerScreen);
 export default connect(null, mapDispatchToProps)(withNavigationFocus(BarcodeScannerScreen));

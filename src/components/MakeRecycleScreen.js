@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import ViewShot from 'react-native-view-shot';
 import { FontAwesome } from '@expo/vector-icons';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity
+} from 'react-native';
 import Draggable from './Draggable';
 import Confirm from './Confirm';
 
@@ -18,9 +24,8 @@ export default class InfoScreen extends Component {
   };
 
   state = {
-    // barcode: this.props.navigation.getParam('barcode'),
     draggables: [],
-    uri: null
+    base64Image: null
   };
 
   addDraggable = (text) => {
@@ -33,9 +38,9 @@ export default class InfoScreen extends Component {
   }
 
   takeSnapShot = () => {
-    this.refs.viewShot.capture().then((uri) => {
+    this.refs.viewShot.capture().then((base64Image) => {
       this.setState({
-        uri
+        base64Image
       });
     });
   }
@@ -52,15 +57,15 @@ export default class InfoScreen extends Component {
   }
 
   render() {
-    const { uri, draggables } = this.state;
+    const { base64Image, draggables } = this.state;
     const { navigation } = this.props;
-    const imgURI = navigation.getParam('imgURI');
+    const imgURI = navigation.getParam('photoURI');
 
     return (
       <View style={styles.container}>
         {
-          uri
-            ? <Confirm uri={uri} navigation={navigation} />
+          base64Image
+            ? <Confirm base64Image={base64Image} navigation={navigation} />
             : null
         }
         <View style={{ marginTop: 10 }}>
@@ -72,7 +77,7 @@ export default class InfoScreen extends Component {
             <View>
               <Image
                 style={{ width: 400, height: 400 }}
-                source={{ uri: `data:image/png;base64,${imgURI}` }}
+                source={{ uri: imgURI }}
               />
               <View style={styles.recycleImageWrapper}>
                 {
@@ -105,7 +110,7 @@ export default class InfoScreen extends Component {
           >
             <Image
               style={{ width: 60, height: 60 }}
-              source={require('../../assets/plastic.png')}
+              source={require('../../assets/images/plastic.png')}
             />
             <Text>Plastic</Text>
           </TouchableOpacity>
@@ -115,7 +120,7 @@ export default class InfoScreen extends Component {
           >
             <Image
               style={{ width: 60, height: 60 }}
-              source={require('../../assets/metal.png')}
+              source={require('../../assets/images/metal.png')}
             />
             <Text>Metal</Text>
           </TouchableOpacity>
@@ -125,7 +130,7 @@ export default class InfoScreen extends Component {
           >
             <Image
               style={{ width: 60, height: 60 }}
-              source={require('../../assets/paper.png')}
+              source={require('../../assets/images/paper.png')}
             />
             <Text>Paper</Text>
           </TouchableOpacity>
@@ -135,7 +140,7 @@ export default class InfoScreen extends Component {
           >
             <Image
               style={{ width: 60, height: 60 }}
-              source={require('../../assets/glass.png')}
+              source={require('../../assets/images/glass.png')}
             />
             <Text>Glass</Text>
           </TouchableOpacity>
@@ -145,7 +150,7 @@ export default class InfoScreen extends Component {
           >
             <Image
               style={{ width: 60, height: 60 }}
-              source={require('../../assets/trash.png')}
+              source={require('../../assets/images/trash.png')}
             />
             <Text>Trash</Text>
           </TouchableOpacity>

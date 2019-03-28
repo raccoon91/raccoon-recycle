@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, PanResponder, Image } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  PanResponder,
+  Image
+} from 'react-native';
 
 const images = {
-  plastic: require('../../assets/plastic.png'),
-  metal: require('../../assets/metal.png'),
-  glass: require('../../assets/glass.png'),
-  paper: require('../../assets/paper.png'),
-  trash: require('../../assets/trash.png')
+  plastic: require('../../assets/images/plastic.png'),
+  metal: require('../../assets/images/metal.png'),
+  glass: require('../../assets/images/glass.png'),
+  paper: require('../../assets/images/paper.png'),
+  trash: require('../../assets/images/trash.png')
 };
 
 export default class App extends Component {
   state = {
-    // dragging: false,
     initialTop: 50,
     initialLeft: 50,
     offsetTop: 0,
-    offsetLeft: 0
+    offsetLeft: 0,
+    dragging: false
   }
 
   panResponder = {}
@@ -23,41 +28,30 @@ export default class App extends Component {
   componentWillMount() {
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: this.handleStartShouldSetPanResponder,
-      // onPanResponderGrant: this.handlePanResponderGrant,
+      onPanResponderGrant: this.handlePanResponderGrant,
       onPanResponderMove: this.handlePanResponderMove,
       onPanResponderRelease: this.handlePanResponderEnd,
-      // onPanResponderTerminate: this.handlePanResponderEnd,
     });
   }
 
-  // Should we become active when the user presses down on the square?
-  handleStartShouldSetPanResponder = () => {
-    return true;
+  handleStartShouldSetPanResponder = () => true;
+
+  handlePanResponderGrant = () => {
+    this.setState({ dragging: true });
   }
 
-  // // We were granted responder status! Let's update the UI
-  // handlePanResponderGrant = () => {
-  //   this.setState({dragging: true})
-  // }
-
-  // Every time the touch/mouse moves
   handlePanResponderMove = (e, gestureState) => {
-    // Keep track of how far we've moved in total (dx and dy)
     this.setState({
       offsetTop: gestureState.dy,
       offsetLeft: gestureState.dx,
     });
   }
 
-  // When the touch/mouse is lifted
   handlePanResponderEnd = (e, gestureState) => {
     const { initialTop, initialLeft } = this.state;
 
-    // The drag is finished. Set the initialTop and initialLeft so that
-    // the new position sticks. Reset offsetTop and offsetLeft for the next drag.
-
     this.setState({
-      // dragging: false,
+      dragging: false,
       initialTop: initialTop + gestureState.dy,
       initialLeft: initialLeft + gestureState.dx,
       offsetTop: 0,
@@ -66,12 +60,13 @@ export default class App extends Component {
   }
 
   render() {
-    const { initialTop, initialLeft, offsetTop, offsetLeft } = this.state;
+    const { initialTop, initialLeft, offsetTop, offsetLeft, dragging } = this.state;
     const { content } = this.props;
 
     const recycleImagePosition = {
       top: initialTop + offsetTop,
       left: initialLeft + offsetLeft,
+      opacity: dragging ? 0.6 : 1
     };
 
     return (

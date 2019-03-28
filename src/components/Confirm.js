@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-// import ActionCreator from '../actions';
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TouchableOpacity
+} from 'react-native';
 
 class ConfirmModal extends Component {
   save = () => {
-    const { barcode, username, uri, navigation } = this.props;
+    const {
+      barcode,
+      username,
+      base64Image,
+      navigation
+    } = this.props;
 
     fetch('https://pb1ol5vs94.execute-api.us-east-1.amazonaws.com/recycle/upload',
       {
@@ -14,20 +24,18 @@ class ConfirmModal extends Component {
           'Content-Type': 'application/json'
         },
         method: 'POST',
-        body: JSON.stringify({barcode, username, base64Image: uri})
+        body: JSON.stringify({barcode, username, base64Image })
       })
-      .then((res) => {
-        console.log('res', res.body);
-        navigation.navigate('Display', { barcode, confirm: { barcode, username } });
+      .then(() => {
+        navigation.navigate('DisplayRecycle', { barcode, confirm: { barcode, username } });
       })
       .catch((err) => {
-        console.log('post error');
         console.log(err);
       });
   }
 
   render() {
-    const { uri } = this.props;
+    const { base64Image } = this.props;
 
     return (
       <View style={styles.container}>
@@ -35,13 +43,13 @@ class ConfirmModal extends Component {
           <View style={{ padding: 20 }}>
             <Image
               style={{ width: 300, height: 300 }}
-              source={{ uri: `data:image/png;base64, ${uri}` }}
+              source={{ uri: `data:image/png;base64, ${base64Image}` }}
             />
             <Text style={styles.modalText}>barcode: {this.props.barcode}</Text>
             <Text style={styles.modalText}>user: {this.props.username}</Text>
           </View>
-          <TouchableOpacity style={{ marginTop: 20, backgroundColor: '#4b636e', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 5 }} onPress={this.save}>
-            <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>Save</Text>
+          <TouchableOpacity style={styles.saveButton} onPress={this.save}>
+            <Text style={styles.saveText}>Save</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -74,14 +82,24 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 20,
     fontWeight: 'bold'
+  },
+  saveButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginTop: 20,
+    borderRadius: 5,
+    backgroundColor: '#4b636e'
+  },
+  saveText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold'
   }
 });
 
-const mapStateToProps = (state) => {
-  return {
-    username: state.userName,
-    barcode: state.barcode
-  };
-};
+const mapStateToProps = state => ({
+  username: state.userName,
+  barcode: state.barcode
+});
 
 export default connect(mapStateToProps)(ConfirmModal);

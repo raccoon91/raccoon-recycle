@@ -49,33 +49,33 @@ class DisplayScreen extends Component {
   }
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, response } = this.props;
     const { isLoad } = this.state;
     const barcode = navigation.getParam('barcode', 'no-data');
-    const response = navigation.getParam('confirm', false) || this.state.response;
+    const result = navigation.getParam('confirm', false) || response;
 
     return (
       <View style={styles.container}>
         {
           !isLoad
             ? <ActivityIndicator size="large" />
-            : <OnLoad response={response} barcode={barcode} navigation={navigation} />
+            : <OnLoad result={result} barcode={barcode} navigation={navigation} />
         }
       </View>
     );
   }
 }
 
-const OnLoad = ({ response, barcode, navigation }) => {
-  if (response) {
+const OnLoad = ({ result, barcode, navigation }) => {
+  if (result) {
     return (
       <View>
         <Image
           style={{ width: 300, height: 300 }}
           source={{ uri: `https://s3.amazonaws.com/raccoonbucketlambda/recycle/${barcode}/image.png` }}
         />
-        <Text style={{ fontSize: 20, color: 'white', marginVertical: 5, fontWeight: 'bold' }}>barcode: {response.barcode}</Text>
-        <Text style={{ fontSize: 20, color: 'white', marginVertical: 5, fontWeight: 'bold' }}>user: {response.username}</Text>
+        <Text style={styles.resultText}>barcode: {result.barcode}</Text>
+        <Text style={styles.resultText}>user: {result.username}</Text>
       </View>
     );
   }
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold'
   },
-  responseText: {
+  resultText: {
     marginVertical: 5,
     color: 'white',
     fontSize: 20,

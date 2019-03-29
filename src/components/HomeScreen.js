@@ -24,10 +24,10 @@ class HomeScreen extends Component {
   signIn = async () => {
     try {
       // development
-      const clientId = '1050254961075-9f9osk0h0kvc562l3sh0pbhc5bvv7ift.apps.googleusercontent.com';
+      // const clientId = '1050254961075-9f9osk0h0kvc562l3sh0pbhc5bvv7ift.apps.googleusercontent.com';
 
       // deploy
-      // const clientId = '1050254961075-qruht9q5sdrjgg5l0k521q4pt9e2dgq6.apps.googleusercontent.com';
+      const clientId = '1050254961075-qruht9q5sdrjgg5l0k521q4pt9e2dgq6.apps.googleusercontent.com';
       const { type, user } = await Google.logInAsync({ clientId });
       const { saveloginUserName } = this.props;
 

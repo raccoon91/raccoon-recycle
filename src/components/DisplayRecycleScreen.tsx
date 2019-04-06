@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,7 +8,30 @@ import {
   Image
 } from 'react-native';
 
-export default class DisplayScreen extends Component {
+export interface Props {
+  navigation: {
+    navigate: (route: string) => void,
+    getParam: (dataName: string, result: string | null) => any
+  }
+}
+
+export interface OnLoadProps {
+  result: {
+    barcode: string,
+    username: string
+  } | null,
+  barcode: string,
+  navigation: {
+    navigate: (route: string) => void
+  }
+}
+
+interface State {
+  isLoad: boolean;
+  response: null | object;
+}
+
+export default class DisplayScreen extends React.Component<Props, State> {
   static navigationOptions = {
     title: 'Display',
     headerStyle: {
@@ -53,7 +75,7 @@ export default class DisplayScreen extends Component {
     const { navigation } = this.props;
     const { isLoad, response } = this.state;
     const barcode = navigation.getParam('barcode', 'no-data');
-    const result = navigation.getParam('confirm', false) || response;
+    const result = navigation.getParam('confirm', null) || response;
 
     return (
       <View style={styles.container}>
@@ -67,7 +89,7 @@ export default class DisplayScreen extends Component {
   }
 }
 
-const OnLoad = ({ result, barcode, navigation }) => {
+const OnLoad = ({ result, barcode, navigation }: OnLoadProps) => {
   if (result) {
     return (
       <View>
@@ -91,20 +113,6 @@ const OnLoad = ({ result, barcode, navigation }) => {
       </TouchableOpacity>
     </View>
   );
-};
-
-DisplayScreen.propTypes = {
-  navigation: PropTypes.objectOf(Object).isRequired
-};
-
-OnLoad.defaultProps = {
-  result: null
-};
-
-OnLoad.propTypes = {
-  result: PropTypes.objectOf(String),
-  barcode: PropTypes.string.isRequired,
-  navigation: PropTypes.objectOf(Object).isRequired
 };
 
 const styles = StyleSheet.create({

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { Google } from 'expo';
-import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
@@ -9,9 +9,35 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import { loginUserName } from '../actions';
+import { loginUserName, Action } from '../actions';
+import { StoreState } from '../types';
 
-class HomeScreen extends Component {
+export interface Props {
+  username: string;
+  saveloginUserName: (name: string) => void;
+  navigation: {
+    navigate: (route: string) => void
+  };
+}
+
+export interface LogInPageProps {
+  signIn: () => void;
+}
+
+export interface LoggedInPageProps {
+  name: string;
+  photoUrl: string;
+  navigation: {
+    navigate: (route: string) => void
+  };
+}
+
+interface State {
+  signedIn: boolean;
+  photoUrl: string;
+}
+
+class HomeScreen extends React.Component<Props, State> {
   static navigationOptions = {
     header: null
   };
@@ -24,10 +50,10 @@ class HomeScreen extends Component {
   signIn = async () => {
     try {
       // development
-      // const clientId = '1050254961075-9f9osk0h0kvc562l3sh0pbhc5bvv7ift.apps.googleusercontent.com';
+      const clientId = '1050254961075-9f9osk0h0kvc562l3sh0pbhc5bvv7ift.apps.googleusercontent.com';
 
       // deploy
-      const clientId = '1050254961075-qruht9q5sdrjgg5l0k521q4pt9e2dgq6.apps.googleusercontent.com';
+      // const clientId = '1050254961075-qruht9q5sdrjgg5l0k521q4pt9e2dgq6.apps.googleusercontent.com';
       const { type, user } = await Google.logInAsync({ clientId });
       const { saveloginUserName } = this.props;
 
@@ -60,7 +86,7 @@ class HomeScreen extends Component {
   }
 }
 
-const LogInPage = ({ signIn }) => (
+const LogInPage = ({ signIn }: LogInPageProps) => (
   <View style={{ alignItems: 'center' }}>
     <View style={styles.appLogoContainer}>
       <Image
@@ -80,7 +106,7 @@ const LogInPage = ({ signIn }) => (
   </View>
 );
 
-const LoggedInPage = ({ name, photoUrl, navigation }) => (
+const LoggedInPage = ({ name, photoUrl, navigation }: LoggedInPageProps) => (
   <View style={styles.container}>
     <Text style={styles.logedinText}>Welcome!</Text>
     <Text style={styles.userName}>{name}</Text>
@@ -90,22 +116,6 @@ const LoggedInPage = ({ name, photoUrl, navigation }) => (
     </TouchableOpacity>
   </View>
 );
-
-HomeScreen.propTypes = {
-  username: PropTypes.string.isRequired,
-  navigation: PropTypes.objectOf(Object).isRequired,
-  saveloginUserName: PropTypes.func.isRequired
-};
-
-LogInPage.propTypes = {
-  signIn: PropTypes.func.isRequired
-};
-
-LoggedInPage.propTypes = {
-  name: PropTypes.string.isRequired,
-  photoUrl: PropTypes.string.isRequired,
-  navigation: PropTypes.objectOf(Object).isRequired
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -179,12 +189,12 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: StoreState) => ({
   username: state.userName
 });
 
-const mapDispatchToProps = dispatch => ({
-  saveloginUserName: (name) => {
+const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({
+  saveloginUserName: (name: string) => {
     dispatch(loginUserName(name));
   }
 });

@@ -3,14 +3,16 @@ import { Animated, Easing } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import { reducer } from './src/reducers';
+import { StoreState } from './src/types/index';
+import { Action } from './src/actions/index';
 import HomeScreen from './src/components/HomeScreen';
 import BarcodeScannerScreen from './src/components/BarcodeScannerScreen';
 import DisplayRecycleScreen from './src/components/DisplayRecycleScreen';
 import CameraScreen from './src/components/CameraScreen';
 import MakeRecycleScreen from './src/components/MakeRecycleScreen';
-import reducers from './src/reducers';
 
-const SlideFromRight = (index, position, width) => {
+const SlideFromRight = (index: number, position: { interpolate: (object: {inputRange: Array<number>, outputRange: Array<number>}) => void }, width: number) => {
   const translateX = position.interpolate({
     inputRange: [index - 1, index, index + 1],
     outputRange: [width, 0, 0]
@@ -26,7 +28,7 @@ const TransitionConfiguration = () => ({
     timing: Animated.timing,
     useNativeDriver: true,
   },
-  screenInterpolator: (sceneProps) => {
+  screenInterpolator: (sceneProps: any) => {
     const { layout, position, scene } = sceneProps;
     const width = layout.initWidth;
     const { index } = scene;
@@ -50,10 +52,14 @@ const MainStack = createStackNavigator({
 });
 
 const AppContainer = createAppContainer(MainStack);
+const store = createStore<StoreState, Action, any, any>(reducer, {
+  userName: '',
+  barcode: ''
+});
 
 export default function App() {
   return (
-    <Provider store={createStore(reducers)}>
+    <Provider store={store}>
       <AppContainer />
     </Provider>
   );

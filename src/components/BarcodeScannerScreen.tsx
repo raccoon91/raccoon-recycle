@@ -1,17 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { BarCodeScanner, Permissions } from 'expo';
 import { withNavigationFocus } from 'react-navigation';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
   View,
   ActivityIndicator
 } from 'react-native';
-import { barcodeScan } from '../actions';
+import { barcodeScan, Action } from '../actions';
+import { Dispatch } from 'redux';
 
-class BarcodeScannerScreen extends Component {
+
+export interface Props {
+  saveBarcode: (barcode: string) => void;
+  isFocused: boolean;
+  navigation: {
+    navigate: (route: string, data: object) => void;
+  };
+}
+
+interface State {
+  hasCameraPermission: boolean | null;
+}
+
+class BarcodeScannerScreen extends React.Component<Props, State> {
   static navigationOptions = {
     header: null
   };
@@ -27,7 +40,7 @@ class BarcodeScannerScreen extends Component {
     });
   }
 
-  handleBarCodeScanned = ({ data }) => {
+  handleBarCodeScanned = ({ data }: { data: string }) => {
     const { saveBarcode, navigation } = this.props;
 
     saveBarcode(data);
@@ -73,12 +86,6 @@ class BarcodeScannerScreen extends Component {
   }
 }
 
-BarcodeScannerScreen.propTypes = {
-  saveBarcode: PropTypes.func.isRequired,
-  navigation: PropTypes.objectOf(Object).isRequired,
-  isFocused: PropTypes.bool.isRequired
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -99,8 +106,8 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapDispatchToProps = dispatch => ({
-  saveBarcode: (barcode) => {
+const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({
+  saveBarcode: (barcode: string) => {
     dispatch(barcodeScan(barcode));
   }
 });

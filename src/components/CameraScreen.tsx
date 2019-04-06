@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Camera, Permissions } from 'expo';
-import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
@@ -9,7 +8,28 @@ import {
   ActivityIndicator
 } from 'react-native';
 
-export default class CameraScreen extends Component {
+export interface Props {
+  navigation: {
+    navigate: (route: string, result: object) => void
+  }
+}
+
+interface State {
+  hasCameraPermission: boolean | null
+}
+
+export default class CameraScreen extends React.Component<Props, State> {
+  private camera: React.RefObject<React.Component<Camera>>
+
+  constructor(props: Props) {
+    super(props);
+    this.state ={
+      hasCameraPermission: null
+    };
+
+    this.camera = React.createRef();
+  }
+  
   static navigationOptions = {
     title: 'Camera',
     headerStyle: {
@@ -20,11 +40,12 @@ export default class CameraScreen extends Component {
       fontWeight: 'bold'
     }
   };
-
+  
   state = {
     hasCameraPermission: null
   };
 
+  
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
@@ -41,7 +62,7 @@ export default class CameraScreen extends Component {
   }
 
   render() {
-    const { hasCameraPermission, type } = this.state;
+    const { hasCameraPermission } = this.state;
 
     if (hasCameraPermission === null) {
       return <ActivityIndicator />;
@@ -52,8 +73,7 @@ export default class CameraScreen extends Component {
         <View style={styles.container}>
           <Camera
             style={{ width: 400, height: 400 }}
-            type={type}
-            ref={(ref) => { this.camera = ref; }}
+            ref={(ref: any) => { this.camera = ref; }}
             autoFocus="off"
             ratio="1:1"
           />
@@ -67,10 +87,6 @@ export default class CameraScreen extends Component {
     }
   }
 }
-
-CameraScreen.propTypes = {
-  navigation: PropTypes.objectOf(Object).isRequired
-};
 
 const styles = StyleSheet.create({
   container: {

@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ViewShot from 'react-native-view-shot';
 import { FontAwesome } from '@expo/vector-icons';
-import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
@@ -12,7 +11,18 @@ import {
 import RecycleImage from './RecycleImage';
 import ConfirmModal from './ConfirmModal';
 
-export default class MakeRecycleScreen extends Component {
+export interface Props {
+  navigation: {
+    getParam: (dataName: string) => string
+  }
+}
+
+interface State {
+  recycleImages: Array<object>,
+  base64Image: string | null
+}
+
+export default class MakeRecycleScreen extends React.Component<Props, State> {
   static navigationOptions = {
     title: 'information',
     headerStyle: {
@@ -29,7 +39,7 @@ export default class MakeRecycleScreen extends Component {
     base64Image: null
   };
 
-  addRecycleImage = (text) => {
+  addRecycleImage = (text: string) => {
     const { recycleImages } = this.state;
     const index = recycleImages.length;
 
@@ -39,7 +49,7 @@ export default class MakeRecycleScreen extends Component {
   }
 
   takeSnapShot = () => {
-    this.refs.viewShot.capture().then((base64Image) => {
+    this.refs.viewShot.capture().then((base64Image: string) => {
       this.setState({
         base64Image
       });
@@ -160,10 +170,6 @@ export default class MakeRecycleScreen extends Component {
     );
   }
 }
-
-MakeRecycleScreen.propTypes = {
-  navigation: PropTypes.objectOf(Object).isRequired
-};
 
 const styles = StyleSheet.create({
   container: {

@@ -1,8 +1,8 @@
 import * as types from '../actions/types';
-import { Action } from '../actions/index';
-import { StoreState } from '../types/index';
+import { Action } from '../actions';
+import { StoreState } from '../types';
 
-export function reducer(state: StoreState, action: Action): StoreState {
+export const reducer = (state: StoreState, action: Action): StoreState => {
   // const copiedState = JSON.parse(JSON.stringify(state));
 
   switch (action.type) {

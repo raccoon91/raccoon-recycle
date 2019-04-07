@@ -45,6 +45,7 @@ $ yarn start
 
 ## Things to do
 
+- Test (진행 중)
+- TypeScript (진행 중)
 - 분리수거 정보에 좋아요, 싫어요 표시
-- Test
 - UI 개선

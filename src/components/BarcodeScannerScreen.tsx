@@ -1,18 +1,13 @@
 import React from 'react';
 import { BarCodeScanner, Permissions } from 'expo';
-import { withNavigationFocus } from 'react-navigation';
-import { connect } from 'react-redux';
 import {
   StyleSheet,
   Text,
-  View,
-  ActivityIndicator
+  View
 } from 'react-native';
-import { barcodeScan, Action } from '../actions';
-import { Dispatch } from 'redux';
 
 
-export interface Props {
+interface Props {
   saveBarcode: (barcode: string) => void;
   isFocused: boolean;
   navigation: {
@@ -24,7 +19,7 @@ interface State {
   hasCameraPermission: boolean | null;
 }
 
-class BarcodeScannerScreen extends React.Component<Props, State> {
+export default class BarcodeScannerScreen extends React.Component<Props, State> {
   static navigationOptions = {
     header: null
   };
@@ -40,11 +35,11 @@ class BarcodeScannerScreen extends React.Component<Props, State> {
     });
   }
 
-  handleBarCodeScanned = ({ data }: { data: string }) => {
+  handleBarCodeScanned = (result: { type: string, data: string }) => {
     const { saveBarcode, navigation } = this.props;
 
-    saveBarcode(data);
-    navigation.navigate('DisplayRecycle', { barcode: data });
+    saveBarcode(result.data);
+    navigation.navigate('DisplayRecycle', { barcode: result.data });
   }
 
   render() {
@@ -74,12 +69,12 @@ class BarcodeScannerScreen extends React.Component<Props, State> {
             ? (
               <View style={styles.barcodeScannerWrapper}>
                 <BarCodeScanner
-                  onBarCodeRead={this.handleBarCodeScanned}
+                  onBarCodeScanned={this.handleBarCodeScanned}
                   style={StyleSheet.absoluteFill}
                 />
               </View>
             )
-            : <ActivityIndicator size="large" />
+            : null
         }
       </View>
     );
@@ -106,10 +101,3 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({
-  saveBarcode: (barcode: string) => {
-    dispatch(barcodeScan(barcode));
-  }
-});
-
-export default connect(null, mapDispatchToProps)(withNavigationFocus(BarcodeScannerScreen));

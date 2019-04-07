@@ -1,5 +1,6 @@
 node_modules/**/*
 .expo/*
+.jest/*
 npm-debug.*
 *.jks
 *.p12
@@ -7,3 +8,4 @@ npm-debug.*
 *.mobileprovision
 package-lock.json
 yarn.lock
+coverage

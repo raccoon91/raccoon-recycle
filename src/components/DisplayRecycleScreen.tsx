@@ -8,14 +8,14 @@ import {
   Image
 } from 'react-native';
 
-export interface Props {
+interface Props {
   navigation: {
     navigate: (route: string) => void,
     getParam: (dataName: string, result: string | null) => any
   }
 }
 
-export interface OnLoadProps {
+interface OnLoadProps {
   result: {
     barcode: string,
     username: string

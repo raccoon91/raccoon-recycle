@@ -1,0 +1,178 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HomeScreen Test LogInPage renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#a7c0cd",
+        "borderRadius": 20,
+        "height": 180,
+        "justifyContent": "center",
+        "marginBottom": 140,
+        "marginTop": 30,
+        "width": 180,
+      }
+    }
+  >
+    <Image
+      source={1}
+      style={
+        Object {
+          "height": 140,
+          "width": 140,
+        }
+      }
+    />
+  </View>
+  <View
+    accessible={true}
+    isTVSelectable={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#4b636e",
+        "borderRadius": 5,
+        "flexDirection": "row",
+        "opacity": 1,
+        "padding": 5,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#ffffff",
+          "borderRadius": 5,
+          "height": 50,
+          "justifyContent": "center",
+          "width": 50,
+        }
+      }
+    >
+      <Image
+        source={1}
+        style={
+          Object {
+            "height": 40,
+            "width": 40,
+          }
+        }
+      />
+    </View>
+    <Text
+      style={
+        Object {
+          "color": "#ffffff",
+          "fontSize": 22,
+          "fontWeight": "bold",
+          "marginHorizontal": 20,
+        }
+      }
+    >
+      Login with Google
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`HomeScreen Test LoggeedInPage renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#78909c",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "white",
+        "fontSize": 34,
+        "fontWeight": "bold",
+        "marginBottom": 10,
+      }
+    }
+  >
+    Welcome!
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "white",
+        "fontSize": 28,
+        "fontWeight": "bold",
+        "marginBottom": 20,
+      }
+    }
+  >
+    raccon
+  </Text>
+  <Image
+    source={
+      Object {
+        "uri": "URL",
+      }
+    }
+    style={
+      Object {
+        "borderColor": "rgba(0,0,0,0.2)",
+        "borderRadius": 150,
+        "borderWidth": 3,
+        "height": 100,
+        "marginTop": 15,
+        "width": 100,
+      }
+    }
+  />
+  <View
+    accessible={true}
+    isTVSelectable={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#4b636e",
+        "borderRadius": 5,
+        "marginTop": 100,
+        "opacity": 1,
+        "paddingHorizontal": 20,
+        "paddingVertical": 10,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#ffffff",
+          "fontSize": 20,
+          "fontWeight": "bold",
+        }
+      }
+    >
+      Click To Scan
+    </Text>
+  </View>
+</View>
+`;

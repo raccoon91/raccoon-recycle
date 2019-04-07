@@ -9,9 +9,9 @@ import {
   TouchableOpacity
 } from 'react-native';
 import RecycleImage from './RecycleImage';
-import ConfirmModal from './ConfirmModal';
+import ConfirmModal from '../containers/ConfirmModalContainer';
 
-export interface Props {
+interface Props {
   navigation: {
     getParam: (dataName: string) => string
   }

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { StoreState } from '../types';
 
-export interface Props {
+interface Props {
   barcode: string,
   username: string,
   base64Image: string,
@@ -63,55 +63,6 @@ function ConfirmModal(props: Props) {
     </View>
   );
 }
-
-// class ConfirmModal extends React.Component<Props, object> {
-//   save = () => {
-//     const {
-//       barcode,
-//       username,
-//       base64Image,
-//       navigation
-//     } = this.props;
-
-//     fetch('https://pb1ol5vs94.execute-api.us-east-1.amazonaws.com/recycle/upload',
-//       {
-//         headers: {
-//           'Accept': 'application/json',
-//           'Content-Type': 'application/json'
-//         },
-//         method: 'POST',
-//         body: JSON.stringify({barcode, username, base64Image })
-//       })
-//       .then(() => {
-//         navigation.navigate('DisplayRecycle', { barcode, confirm: { barcode, username } });
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   }
-
-//   render() {
-//     const { base64Image } = this.props;
-
-//     return (
-//       <View style={styles.container}>
-//         <View style={styles.modalContainer}>
-//           <View style={{ padding: 20 }}>
-//             <Image
-//               style={{ width: 300, height: 300 }}
-//               source={{ uri: `data:image/png;base64, ${base64Image}` }}
-//             />
-//             <Text style={styles.modalText}>barcode: {this.props.barcode}</Text>
-//             <Text style={styles.modalText}>user: {this.props.username}</Text>
-//           </View>
-//           <TouchableOpacity style={styles.saveButton} onPress={this.save}>
-//             <Text style={styles.saveText}>Save</Text>
-//           </TouchableOpacity>
-//         </View>
-//       </View>
-//     );
-//   }
-// }
 
 const styles = StyleSheet.create({
   container: {

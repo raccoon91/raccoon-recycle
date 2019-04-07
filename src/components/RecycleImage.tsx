@@ -14,7 +14,7 @@ const images = {
   trash: require('../../assets/images/trash.png')
 };
 
-export interface Props {
+interface Props {
   content: string
 }
 

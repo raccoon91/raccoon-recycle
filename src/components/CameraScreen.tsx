@@ -8,7 +8,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 
-export interface Props {
+interface Props {
   navigation: {
     navigate: (route: string, result: object) => void
   }

@@ -4,15 +4,19 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { reducer } from './src/reducers';
-import { StoreState } from './src/types/index';
-import { Action } from './src/actions/index';
-import HomeScreen from './src/components/HomeScreen';
-import BarcodeScannerScreen from './src/components/BarcodeScannerScreen';
+import { StoreState } from './src/types';
+import { Action } from './src/actions';
+import HomeScreen from './src/containers/HomeContainer';
+import BarcodeScannerScreen from './src/containers/BarcodeScannerContainer';
 import DisplayRecycleScreen from './src/components/DisplayRecycleScreen';
 import CameraScreen from './src/components/CameraScreen';
 import MakeRecycleScreen from './src/components/MakeRecycleScreen';
 
-const SlideFromRight = (index: number, position: { interpolate: (object: {inputRange: Array<number>, outputRange: Array<number>}) => void }, width: number) => {
+const SlideFromRight = (
+  index: number,
+  position: { interpolate: (object: {inputRange: Array<number>, outputRange: Array<number>}) => void },
+  width: number
+) => {
   const translateX = position.interpolate({
     inputRange: [index - 1, index, index + 1],
     outputRange: [width, 0, 0]

@@ -11,6 +11,8 @@ export interface BarcodeScan {
 }
 
 export type Action = LoginUserName | BarcodeScan;
+// export type LoginUserNameAction = LoginUserName;
+// export type BarcodeScanAction = BarcodeScan;
 
 export function loginUserName(name: string): LoginUserName {
   return {

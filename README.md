@@ -1,51 +1,50 @@
-## Introduction
+# Raccoon Recycle
 
-바코드를 이용해 물건을 판별하고 카메라로 사진을 찍어 각 부분의 분리수거 정보를 저장하는 안드로이드 어플리케이션 입니다.
+- (서비스종료)
 
-<div style="display: flex; justify-content: space-around">
-  <img src="https://raccoon91.github.io/assets/img/recycle_login.jpg" width="200" />
-  <img src="https://raccoon91.github.io/assets/img/recycle_barcode.jpg" width="200" />
-  <img src="https://raccoon91.github.io/assets/img/recycle_info.jpg" width="200" />
-  <img src="https://raccoon91.github.io/assets/img/recycle_save.jpg" width="200" />
-</div>
+### Introduction
 
-<a href="https://play.google.com/store/apps/details?id=com.raccoon.recycle" target="_blank">Play Store Link</a>
+- React Native 기반 안드로이드 어플리케이션
 
-## Requirements
+### Features
+
+- Google Login
+- 카메라를 이용한 barcode 스캔
+- 분리수거 정보가 있을 경우
+  - 이미지, 저장 정보 불러오기
+- 분리수거 정보가 없을 경우
+  - 재활용 이미지 Drag & Drop
+  - 이미지 저장
+- serverless
+
+### Requirements
 
 - Expo mobile Application
 - Google Login
 
-## Installation
+### Installation
 
 ```sh
 $ yarn install
+
 # src/HomeScreen.js
 #line 27 주석 해제
 #line 30 주석 처리
+
 $ yarn start
+
 # run expo app and scan qr code
 
 ```
 
-## Skills
+### Tech
 
-- Front: Javascript, React Native
+- Front: Javascript(ES6+), React Native, Expo
 - Back: AWS API Gateway, Lambda, S3
 
-## Features
+### Things to do
 
-- Google Login
-- 카메라를 이용항 barcode 스캔
-- 분리수거 정보가 있을 경우
-  - 이미지, 저장 정보 불러오기
-- 분리수거 정보가 없을 경우
-  - 물건 사진을 찍고 분리수거 이미지 추가하기(drag & drop)
-  - 이미지 저장
-
-## Things to do
-
-- Test (진행 중)
-- TypeScript (진행 중)
+- Test
+- TypeScript
 - 분리수거 정보에 좋아요, 싫어요 표시
 - UI 개선
